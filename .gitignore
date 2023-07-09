@@ -21,3 +21,8 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+src/Pages/App.tsx
+package-lock.json
+package.json
+src/Pages/App.tsx
+src/Pages/CrearAutor.tsx

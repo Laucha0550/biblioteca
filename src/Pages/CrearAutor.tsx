@@ -11,7 +11,7 @@ const CrearAutor = () => {
   }, []);
 
   const obtenerPersonas = () => {
-    axios.get('http://localhost/principal.php?route=personas')
+    axios.get('http://192.168.0.191/principal.php?route=personas')
       .then(response => {
         setPersonas(response.data);
       })
@@ -28,7 +28,7 @@ const CrearAutor = () => {
       resena: resena
     };
 
-    axios.post('http://localhost/principal.php?route=autores', autorData)
+    axios.post('http://192.168.0.191/principal.php?route=autores', autorData)
       .then(response => {
         console.log(response.data);
         // Aquí puedes realizar alguna acción adicional después de crear el autor
