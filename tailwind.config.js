@@ -14,6 +14,11 @@ module.exports = {
         vintaje2: '#F2EAD3',
         vintaje3: '#DFD7BF',
         vintaje4: '#3F2305',
+        violeta5: '#6D2E46',
+        violeta6: '#A26769',
+        violeta7: '#D5B9B2',
+        violeta8: '#ECE2D0',
+        violeta9: '#CEBEBE'
       },
     },
     
