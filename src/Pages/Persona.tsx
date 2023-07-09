@@ -12,7 +12,7 @@ const ListaPersonas: React.FC = () => {
 
   useEffect(() => {
     // Hacer la solicitud GET al backend para obtener los datos de la tabla personas
-    axios.get('http://localhost/principal.php?route=personas')
+    axios.get('http://192.168.0.191/principal.php?route=personas')
       .then(response => {
         // Actualizar el estado con los datos obtenidos
         setPersonas(response.data);
