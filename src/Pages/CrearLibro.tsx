@@ -1,51 +1,55 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-interface Autor {
-  id: number;
-  nombre: string;
-  // Otros campos del autor
-}
 
-const CrearLibro: React.FC = () => {
-  const [nombreLibro, setNombreLibro] = useState('');
+const CrearLibro = () => {
+  const [nombrelibro, setNombreLibro] = useState('');
   const [isbn, setIsbn] = useState('');
-  const [idAutor, setIdAutor] = useState(0);
-  const [autores, setAutores] = useState<Autor[]>([]);
+  const [idAutor, setIdAutor] = useState('');
+  const [autores, setAutores] = useState([]);
   const [imagen, setImagen] = useState('');
   const [descripcion, setDescripcion] = useState('');
 
   useEffect(() => {
-    // Obtener la lista de autores para seleccionar uno
-    axios.get('http://localhost:8080/api/autores')
-      .then(response => {
-        setAutores(response.data);
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    obtenerAutores();
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const obtenerAutores = () => {
+    axios.get('http://localhost/principal.php?route=autores')
+      .then(response => {
+        if (Array.isArray(response.data)) {
+          setAutores(response.data);
+        } else {
+          console.error('La respuesta del servidor no es un array:', response.data);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+  
+
+  const handleSubmit = event => {
+    event.preventDefault();
     // Realizar la solicitud POST para crear el libro
     const nuevoLibro = {
-      nombreLibro,
-      isbn,
-      idAutor,
-      imagen,
-      descripcion
+      nombre: nombrelibro,
+      isbn: isbn,
+      id: idAutor,
+      imagen: imagen,
+      descripcion: descripcion
     };
-    axios.post('http://localhost:8080/api/libros', nuevoLibro)
+
+    axios.post('http://localhost/principal.php?route=libros', nuevoLibro)
       .then(response => {
         // Manejar la respuesta del servidor
         console.log(response.data);
         // Limpiar los campos del formulario
-        setNombreLibro('');
-        setIsbn('');
-        setIdAutor(0);
-        setImagen('');
-        setDescripcion('');
+        // setNombreLibro('');
+        // setIsbn('');
+        // setIdAutor('');
+        // setImagen('');
+        // setDescripcion('');
       })
       .catch(error => {
         console.error(error);
@@ -55,58 +59,29 @@ const CrearLibro: React.FC = () => {
   return (
     <div>
       <h1>Crear Libro</h1>
+
       <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="nombreLibro">Nombre del Libro:</label>
-          <input
-            type="text"
-            id="nombreLibro"
-            value={nombreLibro}
-            onChange={e => setNombreLibro(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="isbn">ISBN:</label>
-          <input
-            type="text"
-            id="isbn"
-            value={isbn}
-            onChange={e => setIsbn(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="idAutor">Autor:</label>
-          <select
-            id="idAutor"
-            value={idAutor}
-            onChange={e => setIdAutor(Number(e.target.value))}
-          >
-            <option value={0}>Seleccionar autor...</option>
-            {autores.map(autor => (
-              <option key={autor.id} value={autor.id}>
-                {autor.nombre}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label htmlFor="imagen">URL de la Imagen:</label>
-          <input
-            type="text"
-            id="imagen"
-            value={imagen}
-            onChange={e => setImagen(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="descripcion">Descripción:</label>
-          <textarea
-            id="descripcion"
-            value={descripcion}
-            onChange={e => setDescripcion(e.target.value)}
-          />
-        </div>
-        <button type="submit">Crear</button>
+        <label htmlFor="resena">Nombre de Libro: </label>
+        <textarea id="nombrelibro" name="nombrelibro" rows="4" cols="50" value={nombrelibro} onChange={event => setNombreLibro(event.target.value)}></textarea>
+        <br />
+        <label htmlFor="isbn">ISBN: </label>
+        <textarea id="isbn" name="isbn" rows="4" cols="50" value={isbn} onChange={event => setIsbn(event.target.value)}></textarea>
+        <br />
+        <label htmlFor="autor">Autor:</label>
+        <select id="autor" name="autor" value={idAutor} onChange={event => setIdAutor(event.target.value)}>
+          <option value="">Seleccione un Autor</option>
+          {autores.map(autor => (
+            <option key={autor.id} value={autor.idautor}>{autor.idautor}</option>
+          ))}
+        </select>
+        <br />
+        <label htmlFor="imagen">URL de Imagen:</label>
+        <textarea id="imagen" name="imagen" rows="4" cols="50" value={imagen} onChange={event => setImagen(event.target.value)}></textarea>
+        <br />
+        <label htmlFor="descripcion">Sinopsis:</label>
+        <textarea id="descripcion" name="descripcion" rows="4" cols="50" value={descripcion} onChange={event => setDescripcion(event.target.value)}></textarea>
+        <br />
+        <button type="submit">Crear Autor</button>
       </form>
     </div>
   );

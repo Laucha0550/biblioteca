@@ -8,6 +8,7 @@ import Buscador from './Buscador.tsx';
 import ItemsPage from './ItemsPage.tsx';
 import ListaPersonas from './Persona.tsx';
 import CrearAutor from './CrearAutor.tsx';
+import CrearLibro from './CrearLibro.tsx';
 
 const Sidebar = () => (
   <div className={'hidden lg:block fixed backdrop-blur inset-0 top-[3.8125rem] right-auto w-[16rem] pb-10 px-8 overflow-y-auto'}>
@@ -23,6 +24,9 @@ const Sidebar = () => (
       </li>
       <li className="mb-2">
         <Link to="/CAutor" className=" text-vintaje4 hover:underline">Crear Autor</Link>
+      </li>
+      <li className="mb-2">
+        <Link to="/CLibro" className=" text-vintaje4 hover:underline">Crear Libro</Link>
       </li>
     </ul>
   </div>
@@ -84,6 +88,7 @@ const Outlet = () => {
           <Route path="/pagina3" element={<GeneroListPage generos={filteredGeneros} />} /> {/* Usar filteredGeneros en lugar de generos */}
           <Route path="/persona" element={<ListaPersonas />} />
           <Route path="/cautor" element={<CrearAutor />} />
+          <Route path="/clibro" element={<CrearLibro />} />
         </Routes>
       </div>
     </div>
