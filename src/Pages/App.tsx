@@ -10,6 +10,7 @@ import ListaPersonas from './Persona.tsx';
 import CrearAutor from './CrearAutor.tsx';
 import CrearLibro from './CrearLibro.tsx';
 import Navbar from './Navbar.tsx';
+import MostrarLibro from './MostrarLibro.tsx';
 
 const Sidebar = () => (
   <div className={'hidden lg:block fixed backdrop-blur inset-0 top-[3.8125rem] right-auto w-[16rem] pb-10 px-8 overflow-y-auto'}>
@@ -28,6 +29,9 @@ const Sidebar = () => (
       </li>
       <li className="mb-2">
         <Link to="/CLibro" className=" text-vintaje4 hover:underline">Crear Libro</Link>
+      </li>
+      <li className="mb-2">
+        <Link to="/MLibro" className=" text-vintaje4 hover:underline">Mostrar Libros</Link>
       </li>
     </ul>
   </div>
@@ -53,6 +57,7 @@ const Outlet = () => {
           <Route path="/persona" element={<ListaPersonas />} />
           <Route path="/cautor" element={<CrearAutor />} />
           <Route path="/clibro" element={<CrearLibro />} />
+          <Route path="/mlibro" element={<MostrarLibro />} />
         </Routes>
       </div>
     </div>

@@ -7,6 +7,7 @@ const CrearLibro = () => {
   const [autores, setAutores] = useState([]);
   const [imagen, setImagen] = useState('');
   const [descripcion, setDescripcion] = useState('');
+  const [mensaje, setMensaje] = useState('');
 
   useEffect(() => {
     obtenerAutores();
@@ -34,14 +35,30 @@ const CrearLibro = () => {
       descripcion: descripcion
     };
 
-    axios
-      .post('http://192.168.0.191/principal.php?route=libros', nuevoLibro)
-      .then(response => {
-        console.log(response.data);
+    fetch('http://localhost/principal.php?route=libros', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(nuevoLibro)
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        setMensaje('Se ha guardado correctamente');
+        limpiarCampos();
       })
       .catch(error => {
         console.error(error);
       });
+  };
+
+  const limpiarCampos = () => {
+    setNombreLibro('');
+    setIsbn('');
+    setIdAutor('');
+    setImagen('');
+    setDescripcion('');
   };
 
   return (
@@ -125,6 +142,7 @@ const CrearLibro = () => {
         >
           Crear Libro
         </button>
+        {mensaje && <p className="text-green-500 mb-4">{mensaje}</p>}
       </form>
     </div>
   );
