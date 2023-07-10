@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import axios from 'axios';
+
 import Modal from 'react-modal';
 import Home from './Home.tsx';
 import GeneroListPage from './Pagina3.tsx';
@@ -59,29 +59,29 @@ const Outlet = () => {
   const [generos, setGeneros] = useState([]);
   const [filteredGeneros, setFilteredGeneros] = useState([]);
 
-  useEffect(() => {
-    // Realizar la llamada a la API para obtener los géneros
-    axios.get('https://biblioteca-2023.web.app/genero')
-      .then(response => {
-        setGeneros(response.data);
-        setFilteredGeneros(response.data);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   // Realizar la llamada a la API para obtener los géneros
+  //   axios.get('https://biblioteca-2023.web.app/genero')
+  //     .then(response => {
+  //       setGeneros(response.data);
+  //       setFilteredGeneros(response.data);
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //     });
+  // }, []);
 
-  const filterList = (searchTerm: string) => {
-    const filteredList = generos.filter(genero =>
-      genero.NombreGenero.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredGeneros(filteredList);
-  };
+  // const filterList = (searchTerm: string) => {
+  //   const filteredList = generos.filter(genero =>
+  //     genero.NombreGenero.toLowerCase().includes(searchTerm.toLowerCase())
+  //   );
+  //   setFilteredGeneros(filteredList);
+  // };
 
   return (
     <div className="container mx-auto text-blue-200">
       <h1 className="text-2xl font-bold mt-4 text-blue-200">Página de inicio</h1>
-      <Buscador filterList={filterList} /> {/* Agregar el componente Buscador aquí */}
+      {/* <Buscador filterList={filterList} /> Agregar el componente Buscador aquí */}
       <div className="p-4">
         <Routes>
           <Route path="/menu" element={<Home />} />

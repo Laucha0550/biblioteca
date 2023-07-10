@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 
 interface Persona {
   nombre: string;
@@ -12,10 +11,11 @@ const ListaPersonas: React.FC = () => {
 
   useEffect(() => {
     // Hacer la solicitud GET al backend para obtener los datos de la tabla personas
-    axios.get('http://192.168.0.191/principal.php?route=personas')
-      .then(response => {
+    fetch('http://192.168.0.191/principal.php?route=personas')
+      .then(response => response.json())
+      .then(data => {
         // Actualizar el estado con los datos obtenidos
-        setPersonas(response.data);
+        setPersonas(data);
       })
       .catch(error => {
         console.error(error);

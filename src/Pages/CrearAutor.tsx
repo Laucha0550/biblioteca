@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 
 const CrearAutor = () => {
   const [personas, setPersonas] = useState([]);
@@ -11,9 +10,10 @@ const CrearAutor = () => {
   }, []);
 
   const obtenerPersonas = () => {
-    axios.get('http://192.168.0.191/principal.php?route=personas')
-      .then(response => {
-        setPersonas(response.data);
+    fetch('http://localhost/principal.php?route=personas')
+      .then(response => response.json())
+      .then(data => {
+        setPersonas(data);
       })
       .catch(error => {
         console.log(error);
@@ -28,9 +28,16 @@ const CrearAutor = () => {
       resena: resena
     };
 
-    axios.post('http://192.168.0.191/principal.php?route=autores', autorData)
-      .then(response => {
-        console.log(response.data);
+    fetch('http://localhost/principal.php?route=autores', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(autorData)
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
         // Aquí puedes realizar alguna acción adicional después de crear el autor
       })
       .catch(error => {
