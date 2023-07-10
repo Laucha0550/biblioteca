@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 
 const CrearLibro = () => {
   const [nombrelibro, setNombreLibro] = useState('');
@@ -14,10 +13,10 @@ const CrearLibro = () => {
   }, []);
 
   const obtenerAutores = () => {
-    axios
-      .get('http://localhost/principal.php?route=autores')
-      .then(response => {
-        setAutores(response.data);
+    fetch('http://localhost/principal.php?route=autores')
+      .then(response => response.json())
+      .then(data => {
+        setAutores(data);
       })
       .catch(error => {
         console.log(error);
@@ -26,8 +25,9 @@ const CrearLibro = () => {
 
   const handleSubmit = event => {
     event.preventDefault();
+
     const nuevoLibro = {
-      nombre: nombrelibro,
+      nombrelibro: nombrelibro,
       isbn: isbn,
       idautor: idAutor,
       imagen: imagen,
