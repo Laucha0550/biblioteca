@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from 'react';
 
+interface Persona {
+  idpersona: string;
+  nombre: string;
+}
+
 const CrearAutor = () => {
-  const [personas, setPersonas] = useState([]);
+  const [personas, setPersonas] = useState<Persona[]>([]);
   const [idPersona, setIdPersona] = useState('');
   const [resena, setResena] = useState('');
+  const rows = 4;
+  const cols = 50;
 
   useEffect(() => {
     obtenerPersonas();
@@ -59,7 +66,7 @@ const CrearAutor = () => {
         </select>
         <br />
         <label htmlFor="resena">Reseña:</label>
-        <textarea id="resena" name="resena" rows="4" cols="50" value={resena} onChange={event => setResena(event.target.value)}></textarea>
+        <textarea id="resena" name="resena" rows={4} cols={50} value={resena} onChange={event => setResena(event.target.value)}></textarea>
         <br />
         <button type="submit">Crear Autor</button>
       </form>
