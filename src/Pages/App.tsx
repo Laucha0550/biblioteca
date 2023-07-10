@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 import Modal from 'react-modal';
 import Home from './Home.tsx';
-import GeneroListPage from './Pagina3.tsx';
+//import GeneroListPage from './Pagina3.tsx';
 import Buscador from './Buscador.tsx';
 import ItemsPage from './ItemsPage.tsx';
 import ListaPersonas from './Persona.tsx';
@@ -54,7 +54,7 @@ const Outlet = () => {
       <div className="p-4">
         <Routes>
           <Route path="/menu" element={<Home />} />
-          <Route path="/pagina3" element={<GeneroListPage generos={filteredGeneros} />} /> {/* Usar filteredGeneros en lugar de generos */}
+          {/* <Route path="/pagina3" element={<GeneroListPage generos={filteredGeneros} />} /> Usar filteredGeneros en lugar de generos */}
           <Route path="/persona" element={<ListaPersonas />} />
           <Route path="/cautor" element={<CrearAutor />} />
           <Route path="/clibro" element={<CrearLibro />} />
@@ -75,11 +75,11 @@ const App = () => {
 
   return (
     <Router>
-      <Navbar toggleSidebar={() => {}} openModal={toggleModal} />
+      <Navbar toggleSidebar={() => { }} openModal={toggleModal} />
       <div className="min-h-screen bg-gradient-to-b from-violeta9 to-violeta8">
-       
+
         <div className="flex">
-        
+
           <div className="w-64">
             <Sidebar />
           </div>
@@ -90,11 +90,11 @@ const App = () => {
           </div>
         </div>
         <Modal
-        isOpen={showModal}
-        onRequestClose={toggleModal}
-        contentLabel="Cargar Items">
-        <ItemsPage closeModal={toggleModal} />
-      </Modal>
+          isOpen={showModal}
+          onRequestClose={toggleModal}
+          contentLabel="Cargar Items">
+          <ItemsPage closeModal={toggleModal} />
+        </Modal>
       </div>
 
     </Router>

@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import CrearLibro from './CrearLibro.tsx';
 
+interface Libro {
+  id: string;
+  nombrelibro: string;
+  isbn: string;
+  idautor: string;
+  imagen: string;
+  descripcion: string;
+}
+
 const MostrarLibro = () => {
-  const [libros, setLibros] = useState([]);
+  const [libros, setLibros] = useState<Libro[]>([]);
   const [showCrearLibro, setShowCrearLibro] = useState(false);
 
   useEffect(() => {

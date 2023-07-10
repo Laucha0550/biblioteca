@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
 
 interface Persona {
   idpersona: string;
@@ -27,7 +27,7 @@ const CrearAutor = () => {
       });
   };
 
-  const handleSubmit = event => {
+  const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
     const autorData = {
@@ -58,7 +58,7 @@ const CrearAutor = () => {
 
       <form onSubmit={handleSubmit}>
         <label htmlFor="persona">Persona:</label>
-        <select id="persona" name="persona" value={idPersona} onChange={event => setIdPersona(event.target.value)}>
+        <select id="persona" name="persona" value={idPersona} onChange={(event: ChangeEvent<HTMLSelectElement>) => setIdPersona(event.target.value)}>
           <option value="">Seleccione una persona</option>
           {personas.map(persona => (
             <option key={persona.idpersona} value={persona.idpersona}>{persona.nombre}</option>
@@ -66,7 +66,7 @@ const CrearAutor = () => {
         </select>
         <br />
         <label htmlFor="resena">Reseña:</label>
-        <textarea id="resena" name="resena" rows={4} cols={50} value={resena} onChange={event => setResena(event.target.value)}></textarea>
+        <textarea id="resena" name="resena" rows={rows} cols={cols} value={resena} onChange={(event: ChangeEvent<HTMLTextAreaElement>) => setResena(event.target.value)}></textarea>
         <br />
         <button type="submit">Crear Autor</button>
       </form>

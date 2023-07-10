@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
+
+interface Autor{
+  idautor: string;
+
+}
 
 const CrearLibro = () => {
   const [nombrelibro, setNombreLibro] = useState('');
   const [isbn, setIsbn] = useState('');
   const [idAutor, setIdAutor] = useState('');
-  const [autores, setAutores] = useState([]);
+  const [autores, setAutores] = useState<Autor[]>([]);
   const [imagen, setImagen] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [mensaje, setMensaje] = useState('');
@@ -24,7 +29,7 @@ const CrearLibro = () => {
       });
   };
 
-  const handleSubmit = event => {
+  const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
     const nuevoLibro = {
@@ -61,21 +66,41 @@ const CrearLibro = () => {
     setDescripcion('');
   };
 
+  const handleNombreLibroChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setNombreLibro(event.target.value);
+  };
+
+  const handleIsbnChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setIsbn(event.target.value);
+  };
+
+  const handleIdAutorChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setIdAutor(event.target.value);
+  };
+
+  const handleImagenChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setImagen(event.target.value);
+  };
+
+  const handleDescripcionChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setDescripcion(event.target.value);
+  };
+
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Crear Libro</h1>
 
       <form onSubmit={handleSubmit}>
-        <label htmlFor="resena" className="block mb-2">
+        <label htmlFor="nombrelibro" className="block mb-2">
           Nombre de Libro:
         </label>
         <textarea
           id="nombrelibro"
           name="nombrelibro"
-          rows="4"
-          cols="50"
+          rows={4}
+          cols={50}
           value={nombrelibro}
-          onChange={event => setNombreLibro(event.target.value)}
+          onChange={handleNombreLibroChange}
           className="border border-gray-300 rounded p-2 w-full"
         ></textarea>
         <br />
@@ -85,10 +110,10 @@ const CrearLibro = () => {
         <textarea
           id="isbn"
           name="isbn"
-          rows="4"
-          cols="50"
+          rows={4}
+          cols={50}
           value={isbn}
-          onChange={event => setIsbn(event.target.value)}
+          onChange={handleIsbnChange}
           className="border border-gray-300 rounded p-2 w-full"
         ></textarea>
         <br />
@@ -99,7 +124,7 @@ const CrearLibro = () => {
           id="autor"
           name="autor"
           value={idAutor}
-          onChange={event => setIdAutor(event.target.value)}
+          onChange={handleIdAutorChange}
           className="border border-gray-300 rounded p-2 w-full"
         >
           <option value="">Seleccione un Autor</option>
@@ -116,10 +141,10 @@ const CrearLibro = () => {
         <textarea
           id="imagen"
           name="imagen"
-          rows="4"
-          cols="50"
+          rows={4}
+          cols={50}
           value={imagen}
-          onChange={event => setImagen(event.target.value)}
+          onChange={handleImagenChange}
           className="border border-gray-300 rounded p-2 w-full"
         ></textarea>
         <br />
@@ -129,10 +154,10 @@ const CrearLibro = () => {
         <textarea
           id="descripcion"
           name="descripcion"
-          rows="4"
-          cols="50"
+          rows={4}
+          cols={50}
           value={descripcion}
-          onChange={event => setDescripcion(event.target.value)}
+          onChange={handleDescripcionChange}
           className="border border-gray-300 rounded p-2 w-full"
         ></textarea>
         <br />
