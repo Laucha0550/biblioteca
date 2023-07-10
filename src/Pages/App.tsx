@@ -3,15 +3,12 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 import Modal from 'react-modal';
 import Home from './Home.tsx';
-//import GeneroListPage from './Pagina3.tsx';
-import Buscador from './Buscador.tsx';
 import ItemsPage from './ItemsPage.tsx';
 import ListaPersonas from './Persona.tsx';
 import CrearAutor from './CrearAutor.tsx';
 import CrearLibro from './CrearLibro.tsx';
 import Navbar from './Navbar.tsx';
 import MostrarLibro from './MostrarLibro.tsx';
-//import MostrarLibro from './MostrarLibro2.tsx';
 
 const Sidebar = () => (
   <div className={'hidden lg:block fixed backdrop-blur inset-0 top-[3.8125rem] right-auto w-[16rem] pb-10 px-8 overflow-y-auto'}>
