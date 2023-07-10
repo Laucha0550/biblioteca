@@ -41,31 +41,36 @@ const Navbar = ({ toggleSidebar, openModal }: NavbarProps) => (
   <nav className="sticky top-0 z-40 w-full backdrop-blur flex-none transition-colors duration-500 lg:z-50 lg:border-b lg:border-slate-900/10 dark:border-slate-50/[0.06] bg-white supports-backdrop-blur:bg-white/95 dark:bg-violeta5 shadow-lg">
     <div className="container mx-auto px-4">
       <div className="flex items-center justify-between h-16">
+        {/* Elementos del Sidebar */}
         <div className="flex items-center">
-          <h1 className="text-white text-lg font-semibold focus:outline-none">Biblioteca Maximo Meridio 3ero</h1>
-          {/* Contenido del Sidebar */}
-          <div className="hidden lg:flex space-x-4">
-            <span>
-              <Link to="/menu" className="text-vintaje4 hover:underline">Inicio</Link>
-            </span>
-            <span>
-              <Link to="/Pagina3" className="text-vintaje4 hover:underline">Genero</Link>
-            </span>
-            <span>
-              <Link to="/Persona" className="text-vintaje4 hover:underline">Persona</Link>
-            </span>
-            <span>
-              <Link to="/CAutor" className="text-vintaje4 hover:underline">Crear Autor</Link>
-            </span>
-            <span>
-              <Link to="/CLibro" className="text-vintaje4 hover:underline">Crear Libro</Link>
-            </span>
+          <div className="hidden lg:block fixed inset-y-0 left-0 w-64 bg-white dark:bg-gray-800">
+            <div className="flex flex-col justify-end h-full py-4">
+              <Link to="/menu" className="px-6 py-3 border-b hover:bg-gray-200">Inicio</Link>
+              <Link to="/Pagina3" className="px-6 py-3 border-b hover:bg-gray-200">Genero</Link>
+              <Link to="/Persona" className="px-6 py-3 border-b hover:bg-gray-200">Persona</Link>
+              <Link to="/CAutor" className="px-6 py-3 border-b hover:bg-gray-200">Crear Autor</Link>
+              <Link to="/CLibro" className="px-6 py-3 border-b hover:bg-gray-200">Crear Libro</Link>
+            </div>
           </div>
+          {/* Título del Navbar */}
+          <div className="ml-auto">
+            <h1 className="text-white text-lg font-semibold focus:outline-none">Biblioteca Maximo Meridio 3ero</h1>
+          </div>
+        </div>
+        {/* Botón para abrir el modal */}
+        <div>
+          <button
+            className="bg-blue-500 text-white py-2 px-4 mt-4 rounded"
+            onClick={openModal}
+          >
+            Abrir Página Emergente
+          </button>
         </div>
       </div>
     </div>
   </nav>
 );
+
 
 const Outlet = () => {
   const [generos, setGeneros] = useState([]);

@@ -35,7 +35,7 @@ const CrearLibro = () => {
     };
 
     axios
-      .post('http://localhost/principal.php?route=libros', nuevoLibro)
+      .post('http://192.168.0.191/principal.php?route=libros', nuevoLibro)
       .then(response => {
         console.log(response.data);
       })
