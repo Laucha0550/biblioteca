@@ -9,6 +9,7 @@ import ItemsPage from './ItemsPage.tsx';
 import ListaPersonas from './Persona.tsx';
 import CrearAutor from './CrearAutor.tsx';
 import CrearLibro from './CrearLibro.tsx';
+import Navbar from './Navbar.tsx';
 
 const Sidebar = () => (
   <div className={'hidden lg:block fixed backdrop-blur inset-0 top-[3.8125rem] right-auto w-[16rem] pb-10 px-8 overflow-y-auto'}>
@@ -37,67 +38,13 @@ type NavbarProps = {
   openModal: () => void;
 };
 
-const Navbar = ({ toggleSidebar, openModal }: NavbarProps) => (
-  <nav className="sticky top-0 z-40 w-full backdrop-blur flex-none transition-colors duration-500 lg:z-50 lg:border-b lg:border-slate-900/10 dark:border-slate-50/[0.06] bg-white supports-backdrop-blur:bg-white/95 dark:bg-violeta5 shadow-lg">
-    <div className="container mx-auto px-4">
-      <div className="flex items-center justify-between h-16">
-        {/* Elementos del Sidebar */}
-        <div className="flex items-center">
-          <div className="hidden lg:block fixed inset-y-0 left-0 w-64 bg-white dark:bg-gray-800">
-            <div className="flex flex-col justify-end h-full py-4">
-              <Link to="/menu" className="px-6 py-3 border-b hover:bg-gray-200">Inicio</Link>
-              <Link to="/Pagina3" className="px-6 py-3 border-b hover:bg-gray-200">Genero</Link>
-              <Link to="/Persona" className="px-6 py-3 border-b hover:bg-gray-200">Persona</Link>
-              <Link to="/CAutor" className="px-6 py-3 border-b hover:bg-gray-200">Crear Autor</Link>
-              <Link to="/CLibro" className="px-6 py-3 border-b hover:bg-gray-200">Crear Libro</Link>
-            </div>
-          </div>
-          {/* Título del Navbar */}
-          <div className="ml-auto">
-            <h1 className="text-white text-lg font-semibold focus:outline-none">Biblioteca Maximo Meridio 3ero</h1>
-          </div>
-        </div>
-        {/* Botón para abrir el modal */}
-        <div>
-          <button
-            className="bg-blue-500 text-white py-2 px-4 mt-4 rounded"
-            onClick={openModal}
-          >
-            Abrir Página Emergente
-          </button>
-        </div>
-      </div>
-    </div>
-  </nav>
-);
-
 
 const Outlet = () => {
   const [generos, setGeneros] = useState([]);
   const [filteredGeneros, setFilteredGeneros] = useState([]);
 
-  // useEffect(() => {
-  //   // Realizar la llamada a la API para obtener los géneros
-  //   axios.get('https://biblioteca-2023.web.app/genero')
-  //     .then(response => {
-  //       setGeneros(response.data);
-  //       setFilteredGeneros(response.data);
-  //     })
-  //     .catch(error => {
-  //       console.error(error);
-  //     });
-  // }, []);
-
-  // const filterList = (searchTerm: string) => {
-  //   const filteredList = generos.filter(genero =>
-  //     genero.NombreGenero.toLowerCase().includes(searchTerm.toLowerCase())
-  //   );
-  //   setFilteredGeneros(filteredList);
-  // };
-
   return (
     <div className="container mx-auto text-blue-200">
-      <h1 className="text-2xl font-bold mt-4 text-blue-200">Página de inicio</h1>
       {/* <Buscador filterList={filterList} /> Agregar el componente Buscador aquí */}
       <div className="p-4">
         <Routes>
@@ -122,9 +69,11 @@ const App = () => {
 
   return (
     <Router>
-      <div className="flex bg-vintaje1 flex-col">
-        <Navbar toggleSidebar={() => {}} openModal={toggleModal} />
+      <Navbar toggleSidebar={() => {}} openModal={toggleModal} />
+      <div className="min-h-screen bg-gradient-to-b from-violeta9 to-violeta8">
+       
         <div className="flex">
+        
           <div className="w-64">
             <Sidebar />
           </div>
@@ -134,14 +83,14 @@ const App = () => {
             </div>
           </div>
         </div>
-      </div>
-      <Modal
+        <Modal
         isOpen={showModal}
         onRequestClose={toggleModal}
-        contentLabel="Cargar Items"
-      >
+        contentLabel="Cargar Items">
         <ItemsPage closeModal={toggleModal} />
       </Modal>
+      </div>
+
     </Router>
   );
 };
