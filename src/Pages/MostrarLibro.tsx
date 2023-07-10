@@ -19,7 +19,7 @@ const MostrarLibro = () => {
   }, []);
 
   const obtenerLibros = () => {
-    fetch('http://localhost/principal.php?route=libros')
+    fetch('http://192.168.0.191/principal.php?route=libros')
       .then(response => response.json())
       .then(data => {
         setLibros(data);
