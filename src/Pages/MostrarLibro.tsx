@@ -39,11 +39,16 @@ const MostrarLibro = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Mostrar Libros</h1>
+      <div className="fixed bottom-4 right-4 z-10">
+        <button
+          onClick={handleOpenCrearLibro} className="bg-violeta6 text-white relative rounded-full px-6 py-4 text-xl" title="Crear un nuevo libro">
+          +
+        </button>
+      </div>
 
-      <div className="grid grid-cols-3 text-black gap-4">
+      <div className="grid grid-cols-3 gap-4 mt-14 relative text-center  text-black">
         {libros.map(libro => (
-          <div key={libro.id} className="border border-gray-300 p-4 rounded">
+          <div key={libro.id} className="bg-violeta5  bg-opacity-50 shadow-xl text-center p-4 rounded">
             <h2 className="text-lg font-bold">{libro.nombrelibro}</h2>
             <p>ISBN: {libro.isbn}</p>
             <p>Autor: {libro.idautor}</p>
@@ -57,9 +62,7 @@ const MostrarLibro = () => {
         ))}
       </div>
 
-      <button onClick={handleOpenCrearLibro} className="bg-blue-500 text-white rounded px-4 py-2 mt-4">
-        Crear Libro
-      </button>
+      
 
       {showCrearLibro && (
         <div className="popup-overlay">

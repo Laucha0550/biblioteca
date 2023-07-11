@@ -9,6 +9,7 @@ import CrearAutor from './CrearAutor.tsx';
 import CrearLibro from './CrearLibro.tsx';
 import Navbar from './Navbar.tsx';
 import MostrarLibro from './MostrarLibro.tsx';
+import Login from './login.tsx';
 
 const Sidebar = () => (
   <div className={'hidden lg:block fixed backdrop-blur inset-0 top-[3.8125rem] right-auto w-[16rem] pb-10 px-8 overflow-y-auto'}>
@@ -50,7 +51,7 @@ const Outlet = () => {
       {/* <Buscador filterList={filterList} /> Agregar el componente Buscador aquí */}
       <div className="p-4">
         <Routes>
-          <Route path="/menu" element={<Home />} />
+          <Route path="/menu" element={<Login />} />
           {/* <Route path="/pagina3" element={<GeneroListPage generos={filteredGeneros} />} /> Usar filteredGeneros en lugar de generos */}
           <Route path="/persona" element={<ListaPersonas />} />
           <Route path="/cautor" element={<CrearAutor />} />
