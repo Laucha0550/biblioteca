@@ -79,10 +79,7 @@ const CrearLibro = () => {
     })
       .then(response => response.json())
       .then(data => {
-        //setIdLibro(data.idlibro); // Guardar el idlibro en la variable de estado idLibro
-        setUltimoIdLibro(data.idlibro); // Guardar el idlibro en la variable de estado ultimoIdLibro
         setMensaje('Se ha guardado correctamente');
-        guardarGenerosLibro(data.idgenero, data.idlibro); // Guardar los géneros seleccionados en la tabla intermedia
         limpiarCampos();
       })
       .catch(error => {
@@ -102,16 +99,15 @@ const CrearLibro = () => {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(generoLibro)
+      body: JSON.stringify(generoLibro),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
       })
-        .then(response => response.json())
-        .then(data => {
-          console.log(data);
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    });
+      .catch(error => {
+        console.error(error);
+      });
   };
 
   const limpiarCampos = () => {
