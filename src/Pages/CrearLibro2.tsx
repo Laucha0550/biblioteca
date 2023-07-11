@@ -9,6 +9,7 @@ interface Genero {
   nombregenero: string;
 }
 
+
 const CrearLibro = () => {
   const [nombrelibro, setNombreLibro] = useState('');
   const [isbn, setIsbn] = useState('');
@@ -18,9 +19,10 @@ const CrearLibro = () => {
   const [descripcion, setDescripcion] = useState('');
   const [mensaje, setMensaje] = useState('');
   const [generosSeleccionados, setGenerosSeleccionados] = useState<string[]>([]);
-  const [idLibro, setIdLibro] = useState('');
+  //const [autores, setAutores] = useState<Autor[]>([]);
   const [generos, setGeneros] = useState<Genero[]>([]);
-  const [ultimoIdLibro, setUltimoIdLibro] = useState('');
+
+
 
   useEffect(() => {
     obtenerAutores();
@@ -48,6 +50,7 @@ const CrearLibro = () => {
         console.log(error);
       });
   };
+  
 
   const handleGeneroChange = (event: ChangeEvent<HTMLInputElement>) => {
     const generoId = event.target.value;
@@ -57,6 +60,8 @@ const CrearLibro = () => {
       setGenerosSeleccionados(generosSeleccionados.filter(idgenero => idgenero !== generoId.toString()));
     }
   };
+  
+
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -79,39 +84,13 @@ const CrearLibro = () => {
     })
       .then(response => response.json())
       .then(data => {
-        //setIdLibro(data.idlibro); // Guardar el idlibro en la variable de estado idLibro
-        setUltimoIdLibro(data.idlibro); // Guardar el idlibro en la variable de estado ultimoIdLibro
+        console.log(data);
         setMensaje('Se ha guardado correctamente');
-        guardarGenerosLibro(data.idgenero, data.idlibro); // Guardar los géneros seleccionados en la tabla intermedia
         limpiarCampos();
       })
       .catch(error => {
         console.error(error);
       });
-  };
-
-  const guardarGenerosLibro = (idGenero: string, idLibro: string) => {
-    generosSeleccionados.forEach(generoId => {
-      const generoLibro = {
-        idgenero: generoId,
-        idlibro: idLibro
-      };
-
-      fetch('http://192.168.0.191/principal.php?route=rutagl', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(generoLibro)
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log(data);
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    });
   };
 
   const limpiarCampos = () => {

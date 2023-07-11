@@ -1,4 +1,5 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
+import AsignarGeneros from './AsignarGeneros';
 
 interface Autor {
   idautor: string;
@@ -18,9 +19,9 @@ const CrearLibro = () => {
   const [descripcion, setDescripcion] = useState('');
   const [mensaje, setMensaje] = useState('');
   const [generosSeleccionados, setGenerosSeleccionados] = useState<string[]>([]);
-  const [idLibro, setIdLibro] = useState('');
   const [generos, setGeneros] = useState<Genero[]>([]);
-  const [ultimoIdLibro, setUltimoIdLibro] = useState('');
+  const [idLibroCreado, setIdLibroCreado] = useState('');
+  const [mostrarVentanaGeneros, setMostrarVentanaGeneros] = useState(false);
 
   useEffect(() => {
     obtenerAutores();
@@ -73,16 +74,17 @@ const CrearLibro = () => {
     fetch('http://192.168.0.191/principal.php?route=libros', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(nuevoLibro)
+      body: JSON.stringify(nuevoLibro),
     })
       .then(response => response.json())
       .then(data => {
-        //setIdLibro(data.idlibro); // Guardar el idlibro en la variable de estado idLibro
-        setUltimoIdLibro(data.idlibro); // Guardar el idlibro en la variable de estado ultimoIdLibro
-        setMensaje('Se ha guardado correctamente');
-        guardarGenerosLibro(data.idgenero, data.idlibro); // Guardar los géneros seleccionados en la tabla intermedia
+        const idlibro = data.idlibro; // Obtén el ID del libro recién creado
+
+        asignarGeneros(idlibro);
+        setMostrarVentanaGeneros(true); // Mostrar la ventana emergente
+        setMensaje('Se ha creado el libro correctamente');
         limpiarCampos();
       })
       .catch(error => {
@@ -90,28 +92,29 @@ const CrearLibro = () => {
       });
   };
 
-  const guardarGenerosLibro = (idGenero: string, idLibro: string) => {
-    generosSeleccionados.forEach(generoId => {
+  const asignarGeneros = (idlibro: string) => {
+    const promises = generosSeleccionados.map(idgenero => {
       const generoLibro = {
-        idgenero: generoId,
-        idlibro: idLibro
+        idgenero: idgenero,
+        idlibro: idlibro,
       };
 
-      fetch('http://192.168.0.191/principal.php?route=rutagl', {
+      return fetch('http://192.168.0.191/principal.php?route=rutagl', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(generoLibro)
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log(data);
-        })
-        .catch(error => {
-          console.error(error);
-        });
+        body: JSON.stringify(generoLibro),
+      });
     });
+
+    Promise.all(promises)
+      .then(responses => {
+        console.log(responses);
+      })
+      .catch(error => {
+        console.error(error);
+      });
   };
 
   const limpiarCampos = () => {
@@ -122,11 +125,11 @@ const CrearLibro = () => {
     setDescripcion('');
   };
 
-  const handleNombreLibroChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleNombreLibroChange = (event: ChangeEvent<HTMLInputElement>) => {
     setNombreLibro(event.target.value);
   };
 
-  const handleIsbnChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleIsbnChange = (event: ChangeEvent<HTMLInputElement>) => {
     setIsbn(event.target.value);
   };
 
@@ -134,7 +137,7 @@ const CrearLibro = () => {
     setIdAutor(event.target.value);
   };
 
-  const handleImagenChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleImagenChange = (event: ChangeEvent<HTMLInputElement>) => {
     setImagen(event.target.value);
   };
 
@@ -150,29 +153,27 @@ const CrearLibro = () => {
         <label htmlFor="nombrelibro" className="block mb-2">
           Nombre de Libro:
         </label>
-        <textarea
+        <input
           id="nombrelibro"
           name="nombrelibro"
-          rows={4}
-          cols={50}
+          type="text"
           value={nombrelibro}
           onChange={handleNombreLibroChange}
-          className="border border-gray-300 rounded p-2 w-full"
-        ></textarea>
-        <br />
+          className="border border-gray-300 rounded p-2 mb-4"
+        />
+
         <label htmlFor="isbn" className="block mb-2">
           ISBN:
         </label>
-        <textarea
+        <input
           id="isbn"
           name="isbn"
-          rows={4}
-          cols={50}
+          type="text"
           value={isbn}
           onChange={handleIsbnChange}
-          className="border border-gray-300 rounded p-2 w-full"
-        ></textarea>
-        <br />
+          className="border border-gray-300 rounded p-2 mb-4"
+        />
+
         <label htmlFor="autor" className="block mb-2">
           Autor:
         </label>
@@ -181,7 +182,7 @@ const CrearLibro = () => {
           name="autor"
           value={idAutor}
           onChange={handleIdAutorChange}
-          className="border border-gray-300 rounded p-2 w-full"
+          className="border border-gray-300 rounded p-2 mb-4"
         >
           <option value="">Seleccione un Autor</option>
           {autores.map(autor => (
@@ -190,20 +191,19 @@ const CrearLibro = () => {
             </option>
           ))}
         </select>
-        <br />
+
         <label htmlFor="imagen" className="block mb-2">
           URL de Imagen:
         </label>
-        <textarea
+        <input
           id="imagen"
           name="imagen"
-          rows={4}
-          cols={50}
+          type="text"
           value={imagen}
           onChange={handleImagenChange}
-          className="border border-gray-300 rounded p-2 w-full"
-        ></textarea>
-        <br />
+          className="border border-gray-300 rounded p-2 mb-4"
+        />
+
         <label htmlFor="descripcion" className="block mb-2">
           Sinopsis:
         </label>
@@ -214,9 +214,9 @@ const CrearLibro = () => {
           cols={50}
           value={descripcion}
           onChange={handleDescripcionChange}
-          className="border border-gray-300 rounded p-2 w-full"
+          className="border border-gray-300 rounded p-2 mb-4"
         ></textarea>
-        <br />
+
         <label className="block mb-2">Géneros:</label>
         {generos.map(genero => (
           <label key={genero.idgenero} className="flex items-center">
@@ -237,8 +237,11 @@ const CrearLibro = () => {
         >
           Crear Libro
         </button>
-        {mensaje && <p className="text-green-500 mb-4">{mensaje}</p>}
       </form>
+
+      {mensaje && <p className="text-green-500 mb-4">{mensaje}</p>}
+
+      {mostrarVentanaGeneros && <AsignarGeneros idLibro={idLibroCreado} />}
     </div>
   );
 };

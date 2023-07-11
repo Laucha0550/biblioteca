@@ -9,6 +9,7 @@ import CrearAutor from './CrearAutor.tsx';
 import CrearLibro from './CrearLibro.tsx';
 import Navbar from './Navbar.tsx';
 import MostrarLibro from './MostrarLibro.tsx';
+import AsignarGeneros from './AsignarGeneros.tsx';
 
 const Sidebar = () => (
   <div className={'hidden lg:block fixed backdrop-blur inset-0 top-[3.8125rem] right-auto w-[16rem] pb-10 px-8 overflow-y-auto'}>
@@ -42,16 +43,12 @@ type NavbarProps = {
 
 
 const Outlet = () => {
-  const [generos, setGeneros] = useState([]);
-  const [filteredGeneros, setFilteredGeneros] = useState([]);
 
   return (
     <div className="container mx-auto text-blue-200">
-      {/* <Buscador filterList={filterList} /> Agregar el componente Buscador aquí */}
       <div className="p-4">
         <Routes>
           <Route path="/menu" element={<Home />} />
-          {/* <Route path="/pagina3" element={<GeneroListPage generos={filteredGeneros} />} /> Usar filteredGeneros en lugar de generos */}
           <Route path="/persona" element={<ListaPersonas />} />
           <Route path="/cautor" element={<CrearAutor />} />
           <Route path="/clibro" element={<CrearLibro />} />
