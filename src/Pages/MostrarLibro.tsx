@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import CrearLibro from './CrearLibro.tsx';
+import CrearLibroForm from './CrearLibro3.tsx';
+import CrearLibro from './CrearLibro2.tsx';
+import CrearLibroGeneros from './CrearLibroGeneros.tsx';
 
 interface Libro {
   id: string;
@@ -12,7 +14,9 @@ interface Libro {
 
 const MostrarLibro = () => {
   const [libros, setLibros] = useState<Libro[]>([]);
-  const [showCrearLibro, setShowCrearLibro] = useState(false);
+  const [showCrearLibroForm, setShowCrearLibroForm] = useState(false);
+  const [showCrearLibroGeneros, setShowCrearLibroGeneros] = useState(false);
+  const [idLibroCreado, setIdLibroCreado] = useState('');
 
   useEffect(() => {
     obtenerLibros();
@@ -29,19 +33,25 @@ const MostrarLibro = () => {
       });
   };
 
-  const handleOpenCrearLibro = () => {
-    setShowCrearLibro(true);
+  const handleOpenCrearLibroForm = () => {
+    setShowCrearLibroForm(true);
   };
 
-  const handleCloseCrearLibro = () => {
-    setShowCrearLibro(false);
+  const handleCloseCrearLibroForm = (idLibro: string) => {
+    setShowCrearLibroForm(false);
+    setIdLibroCreado(idLibro);
+    setShowCrearLibroGeneros(true);
+  };
+
+  const handleCloseCrearLibroGeneros = () => {
+    setShowCrearLibroGeneros(false);
+    setIdLibroCreado('');
   };
 
   return (
     <div className="p-4">
       <div className="fixed bottom-4 right-4 z-10">
-        <button
-          onClick={handleOpenCrearLibro} className="bg-violeta6 text-white relative rounded-full px-6 py-4 text-xl" title="Crear un nuevo libro">
+        <button onClick={handleOpenCrearLibroForm} className="bg-violeta6 text-white relative rounded-full px-6 py-4 text-xl" title="Crear un nuevo libro">
           +
         </button>
       </div>
@@ -62,15 +72,24 @@ const MostrarLibro = () => {
         ))}
       </div>
 
-      
-
-      {showCrearLibro && (
+      {showCrearLibroForm && (
         <div className="popup-overlay">
           <div className="popup">
-            <button className="close-btn" onClick={handleCloseCrearLibro}>
+            <button className="close-btn" onClick={() => handleCloseCrearLibroForm('')}>
               Cerrar
             </button>
-            <CrearLibro />
+            <CrearLibro onLibroCreado={handleCloseCrearLibroForm} />
+          </div>
+        </div>
+      )}
+
+      {showCrearLibroGeneros && (
+        <div className="popup-overlay">
+          <div className="popup">
+            <button className="close-btn" onClick={handleCloseCrearLibroGeneros}>
+              Cerrar
+            </button>
+            <CrearLibroGeneros idLibroo={idLibroCreado} />
           </div>
         </div>
       )}
