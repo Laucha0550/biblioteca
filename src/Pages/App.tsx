@@ -9,7 +9,7 @@ import CrearAutor from './CrearAutor.tsx';
 import CrearLibro from './CrearLibro.tsx';
 import Navbar from './Navbar.tsx';
 import MostrarLibro from './MostrarLibro.tsx';
-import Login from './login.tsx';
+import Login from './Login.tsx';
 import AsignarGeneros from './AsignarGeneros.tsx';
 
 const Sidebar = () => (
