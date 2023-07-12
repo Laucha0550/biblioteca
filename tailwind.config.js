@@ -9,6 +9,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        fondologin: "url('/src/Pages/fondologin.jpg')",
+      },
       colors: {
         vintaje1: '#F5F5F5',
         vintaje2: '#F2EAD3',
