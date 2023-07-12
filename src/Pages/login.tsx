@@ -31,9 +31,12 @@ const Login = () => {
       } else {
         throw new Error('Credenciales inválidas');
       }
-    } catch (error) {
-      setErrorMessage(error.message);
-    }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message);
+      } else {
+        setErrorMessage('Ocurrió un error desconocido');
+      }}
   };
   
 
