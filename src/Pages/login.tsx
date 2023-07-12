@@ -29,7 +29,7 @@ const Login = () => {
         localStorage.setItem('token', token);
 
         // Redireccionar a la página principal o ruta protegida usando React Router
-        navigate('./Pages/App.tsx');
+        navigate('/mlibro');
       } else {
         throw new Error('Credenciales inválidas');
       }
