@@ -1,12 +1,12 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
-import CrearLibroForm from './CrearLibro3';
+import CrearLibroForm from './CrearLibro';
 interface Genero {
   idgenero: string;
   nombregenero: string;
 }
 
 const CrearLibroGeneros = ({ idLibroo }: { idLibroo: string }) => {
-  const [generosSeleccionados, setGenerosSeleccionados] = useState<string>('');
+  const [generosSeleccionados, setGenerosSeleccionados] = useState<string[]>([]);
   const [generos, setGeneros] = useState<Genero[]>([]);
 
   useEffect(() => {
@@ -18,45 +18,50 @@ const CrearLibroGeneros = ({ idLibroo }: { idLibroo: string }) => {
       .then(response => response.json())
       .then(data => {
         setGeneros(data);
+        //limpiarCampos();
       })
       .catch(error => {
         console.log(error);
       });
   };
 
+  // const limpiarCampos = () => {
+  //   handleGeneroChange('');
+  // }
+
   const handleGeneroChange = (event: ChangeEvent<HTMLInputElement>) => {
     const generoId = event.target.value;
     if (event.target.checked) {
-      setGenerosSeleccionados(prevGenerosSeleccionados =>
-        prevGenerosSeleccionados + generoId + ','
-      );
+      setGenerosSeleccionados(prevGenerosSeleccionados => [...prevGenerosSeleccionados, generoId]);
     } else {
-      setGenerosSeleccionados(prevGenerosSeleccionados =>
-        prevGenerosSeleccionados.replace(generoId + ',', '')
-      );
+      setGenerosSeleccionados(prevGenerosSeleccionados => prevGenerosSeleccionados.filter(id => id !== generoId));
     }
   };
+  
 
-  const guardarGenerosLibro = () => {
-    const generoLibro = {
-      idgenero: generosSeleccionados,
-      idlibro: idLibroo?.toString() || '',
-    };
-
-    fetch('http://192.168.0.191/principal.php?route=rutagl', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(generoLibro),
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-      })
-      .catch(error => {
-        console.error(error);
-      });
+  const guardarGenerosLibro = async () => {
+    if (generosSeleccionados.length > 0 && idLibroo) {
+      for (const generoId of generosSeleccionados) {
+        const generoLibro = {
+          idgenero: generoId,
+          idlibro: idLibroo,
+        };
+  
+        try {
+          const response = await fetch('http://192.168.0.191/principal.php?route=rutagl', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(generoLibro),
+          });
+          const data = await response.json();
+          console.log(data);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    }
   };
 
   return (

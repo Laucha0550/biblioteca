@@ -4,12 +4,11 @@ interface Autor {
   idautor: string;
 }
 
-interface Genero {
-  idgenero: string;
-  nombregenero: string;
+interface CrearLibroProps {
+  onLibroCreado: (idLibro: string) => void;
 }
 
-const CrearLibro = () => {
+const CrearLibro = ({ onLibroCreado }: CrearLibroProps) => {
   const [nombrelibro, setNombreLibro] = useState('');
   const [isbn, setIsbn] = useState('');
   const [idAutor, setIdAutor] = useState('');
@@ -17,9 +16,9 @@ const CrearLibro = () => {
   const [imagen, setImagen] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [mensaje, setMensaje] = useState('');
-  const [generosSeleccionados, setGenerosSeleccionados] = useState<string>('');
-  const [generos, setGeneros] = useState<Genero[]>([]);
-  const [ultimoIdLibro, setUltimoIdLibro] = useState('');
+  //const [generosSeleccionados, setGenerosSeleccionados] = useState<string[]>([]);
+
+
 
   useEffect(() => {
     obtenerAutores();
@@ -30,7 +29,7 @@ const CrearLibro = () => {
       .then(response => response.json())
       .then(data => {
         setAutores(data);
-        obtenerGeneros();
+        // obtenerGeneros();
       })
       .catch(error => {
         console.log(error);
@@ -46,19 +45,21 @@ const CrearLibro = () => {
       idautor: idAutor,
       imagen: imagen,
       descripcion: descripcion,
-      generos: generosSeleccionados,
+      //generos: generosSeleccionados
     };
 
     fetch('http://192.168.0.191/principal.php?route=libros', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify(nuevoLibro),
+      body: JSON.stringify(nuevoLibro)
     })
       .then(response => response.json())
       .then(data => {
+        console.log(data);
         setMensaje('Se ha guardado correctamente');
+        onLibroCreado(data.id); // Call the onLibroCreado callback with the created book's ID
         limpiarCampos();
       })
       .catch(error => {
@@ -90,9 +91,7 @@ const CrearLibro = () => {
     setImagen(event.target.value);
   };
 
-  const handleDescripcionChange = (
-    event: ChangeEvent<HTMLTextAreaElement>
-  ) => {
+  const handleDescripcionChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setDescripcion(event.target.value);
   };
 
