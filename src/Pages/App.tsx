@@ -49,7 +49,7 @@ const Outlet = () => {
     <div className="container mx-auto text-blue-200">
       <div className="p-4">
         <Routes>
-          <Route path="/menu" element={<Home />} />
+          <Route path="/menu" element={<Login />} />
           {/* <Route path="/pagina3" element={<GeneroListPage generos={filteredGeneros} />} /> Usar filteredGeneros en lugar de generos */}
           <Route path="/persona" element={<ListaPersonas />} />
           <Route path="/cautor" element={<CrearAutor />} />

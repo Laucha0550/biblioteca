@@ -17,8 +17,7 @@ const CrearLibro = () => {
   const [imagen, setImagen] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [mensaje, setMensaje] = useState('');
-  const [generosSeleccionados, setGenerosSeleccionados] = useState<string[]>([]);
-  const [idLibro, setIdLibro] = useState('');
+  const [generosSeleccionados, setGenerosSeleccionados] = useState<string>('');
   const [generos, setGeneros] = useState<Genero[]>([]);
   const [ultimoIdLibro, setUltimoIdLibro] = useState('');
 
@@ -38,23 +37,31 @@ const CrearLibro = () => {
       });
   };
 
-  const obtenerGeneros = () => {
-    fetch('http://192.168.0.191/principal.php?route=generos')
+  const obtenerUltimoIdLibro = () => {
+    fetch('http://192.168.0.191/principal.php?route=ultid')
       .then(response => response.json())
       .then(data => {
-        setGeneros(data);
+        if (data && data.length > 0) {
+          const ultimoId = data[0].ultimoIdLibro; // Obtener el último ID de libro
+          setUltimoIdLibro(ultimoId); // Asignar el último ID de libro a una variable de estado
+          guardarGenerosLibro(generosSeleccionados, ultimoId); // Llamar a la función para guardar los géneros
+        }
       })
       .catch(error => {
-        console.log(error);
+        console.error(error);
       });
   };
 
   const handleGeneroChange = (event: ChangeEvent<HTMLInputElement>) => {
     const generoId = event.target.value;
     if (event.target.checked) {
-      setGenerosSeleccionados([...generosSeleccionados, generoId]);
+      setGenerosSeleccionados(prevGenerosSeleccionados =>
+        prevGenerosSeleccionados + generoId + ','
+      );
     } else {
-      setGenerosSeleccionados(generosSeleccionados.filter(idgenero => idgenero !== generoId.toString()));
+      setGenerosSeleccionados(prevGenerosSeleccionados =>
+        prevGenerosSeleccionados.replace(generoId + ',', '')
+      );
     }
   };
 
@@ -67,51 +74,58 @@ const CrearLibro = () => {
       idautor: idAutor,
       imagen: imagen,
       descripcion: descripcion,
-      generos: generosSeleccionados
+      generos: generosSeleccionados,
     };
 
     fetch('http://192.168.0.191/principal.php?route=libros', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(nuevoLibro)
+      body: JSON.stringify(nuevoLibro),
     })
       .then(response => response.json())
       .then(data => {
-        //setIdLibro(data.idlibro); // Guardar el idlibro en la variable de estado idLibro
-        setUltimoIdLibro(data.idlibro); // Guardar el idlibro en la variable de estado ultimoIdLibro
         setMensaje('Se ha guardado correctamente');
-        guardarGenerosLibro(data.idgenero, data.idlibro); // Guardar los géneros seleccionados en la tabla intermedia
         limpiarCampos();
+        obtenerUltimoIdLibro(); // Obtener el último ID de libro y guardar los géneros
       })
       .catch(error => {
         console.error(error);
       });
   };
 
-  const guardarGenerosLibro = (idGenero: string, idLibro: string) => {
-    generosSeleccionados.forEach(generoId => {
-      const generoLibro = {
-        idgenero: generoId,
-        idlibro: idLibro
-      };
-
-      fetch('http://192.168.0.191/principal.php?route=rutagl', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(generoLibro)
+  const obtenerGeneros = () => {
+    fetch('http://192.168.0.191/principal.php?route=generos')
+      .then(response => response.json())
+      .then(data => {
+        setGeneros(data);
       })
-        .then(response => response.json())
-        .then(data => {
-          console.log(data);
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    });
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const guardarGenerosLibro = (idgeneros: string, ultimoId: string) => {
+    const generoLibro = {
+      idgenero: generos,
+      idlibro: ultimoId,
+    };
+
+    fetch('http://192.168.0.191/principal.php?route=rutagl', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(generoLibro),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
   };
 
   const limpiarCampos = () => {
@@ -138,7 +152,9 @@ const CrearLibro = () => {
     setImagen(event.target.value);
   };
 
-  const handleDescripcionChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleDescripcionChange = (
+    event: ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setDescripcion(event.target.value);
   };
 

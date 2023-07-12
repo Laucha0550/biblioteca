@@ -1,31 +1,22 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
+import CrearLibroGeneros from './CrearLibroGeneros.tsx';
 
 interface Autor {
   idautor: string;
 }
 
-interface Genero {
-  idgenero: string;
-  nombregenero: string;
-}
-
-interface CrearLibroProps {
-  onLibroCreado: (idLibro: string) => void;
-}
-
-const CrearLibro = ({ onLibroCreado }: CrearLibroProps) => {
+const CrearLibroForm = ({
+  onLibroCreado,
+}: {
+  onLibroCreado: (idLibroo: string) => void;
+}) => {
   const [nombrelibro, setNombreLibro] = useState('');
   const [isbn, setIsbn] = useState('');
   const [idAutor, setIdAutor] = useState('');
   const [autores, setAutores] = useState<Autor[]>([]);
   const [imagen, setImagen] = useState('');
   const [descripcion, setDescripcion] = useState('');
-  const [mensaje, setMensaje] = useState('');
-  const [generosSeleccionados, setGenerosSeleccionados] = useState<string[]>([]);
-  //const [autores, setAutores] = useState<Autor[]>([]);
-  const [generos, setGeneros] = useState<Genero[]>([]);
-
-
+  const [ultimoIdLibro, setUltimoIdLibro] = useState('');
 
   useEffect(() => {
     obtenerAutores();
@@ -36,35 +27,25 @@ const CrearLibro = ({ onLibroCreado }: CrearLibroProps) => {
       .then(response => response.json())
       .then(data => {
         setAutores(data);
-        obtenerGeneros();
       })
       .catch(error => {
         console.log(error);
       });
   };
 
-  const obtenerGeneros = () => {
-    fetch('http://192.168.0.191/principal.php?route=generos')
+  const obtenerUltimoIdLibro = () => {
+    fetch('http://192.168.0.191/principal.php?route=ultid')
       .then(response => response.json())
       .then(data => {
-        setGeneros(data);
+        if (data && data.length > 0) {
+          const ultimoId = data[0].ultimoIdLibro; // Obtener el último ID de libro
+          setUltimoIdLibro(ultimoId); // Asignar el último ID de libro a una variable de estado
+        }
       })
       .catch(error => {
-        console.log(error);
+        console.error(error);
       });
   };
-  
-
-  const handleGeneroChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const generoId = event.target.value;
-    if (event.target.checked) {
-      setGenerosSeleccionados([...generosSeleccionados, generoId]);
-    } else {
-      setGenerosSeleccionados(generosSeleccionados.filter(idgenero => idgenero !== generoId.toString()));
-    }
-  };
-  
-
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -75,22 +56,20 @@ const CrearLibro = ({ onLibroCreado }: CrearLibroProps) => {
       idautor: idAutor,
       imagen: imagen,
       descripcion: descripcion,
-      generos: generosSeleccionados
     };
 
     fetch('http://192.168.0.191/principal.php?route=libros', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(nuevoLibro)
+      body: JSON.stringify(nuevoLibro),
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
-        setMensaje('Se ha guardado correctamente');
-        onLibroCreado(data.id); // Call the onLibroCreado callback with the created book's ID
+        onLibroCreado(data.ultimoIdLibro);
         limpiarCampos();
+        obtenerUltimoIdLibro(); // Obtener el último ID de libro
       })
       .catch(error => {
         console.error(error);
@@ -121,7 +100,9 @@ const CrearLibro = ({ onLibroCreado }: CrearLibroProps) => {
     setImagen(event.target.value);
   };
 
-  const handleDescripcionChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleDescripcionChange = (
+    event: ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setDescripcion(event.target.value);
   };
 
@@ -200,19 +181,10 @@ const CrearLibro = ({ onLibroCreado }: CrearLibroProps) => {
           className="border border-gray-300 rounded p-2 w-full"
         ></textarea>
         <br />
-        <label className="block mb-2">Géneros:</label>
-        {generos.map(genero => (
-          <label key={genero.idgenero} className="flex items-center">
-            <input
-              type="checkbox"
-              value={genero.idgenero}
-              checked={generosSeleccionados.includes(genero.idgenero)}
-              onChange={handleGeneroChange}
-              className="mr-2"
-            />
-            <span>{genero.nombregenero}</span>
-          </label>
-        ))}
+
+        {ultimoIdLibro && (
+          <CrearLibroGeneros idLibroo={ultimoIdLibro} />
+        )}
 
         <button
           type="submit"
@@ -220,10 +192,9 @@ const CrearLibro = ({ onLibroCreado }: CrearLibroProps) => {
         >
           Crear Libro
         </button>
-        {mensaje && <p className="text-green-500 mb-4">{mensaje}</p>}
       </form>
     </div>
   );
 };
 
-export default CrearLibro;
+export default CrearLibroForm;
