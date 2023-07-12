@@ -9,7 +9,7 @@ import CrearAutor from './CrearAutor.tsx';
 import CrearLibro from './CrearLibro.tsx';
 import Navbar from './Navbar.tsx';
 import MostrarLibro from './MostrarLibro.tsx';
-import Login from './Login.tsx';
+import Login from './login.tsx';
 import AsignarGeneros from './AsignarGeneros.tsx';
 
 const Sidebar = () => (
@@ -53,7 +53,7 @@ const Outlet = () => {
           {/* <Route path="/pagina3" element={<GeneroListPage generos={filteredGeneros} />} /> Usar filteredGeneros en lugar de generos */}
           <Route path="/persona" element={<ListaPersonas />} />
           <Route path="/cautor" element={<CrearAutor />} />
-          <Route path="/clibro" element={<CrearLibro />} />
+          {/* <Route path="/clibro" element={<CrearLibro />} /> */}
           <Route path="/mlibro" element={<MostrarLibro />} />
         </Routes>
       </div>

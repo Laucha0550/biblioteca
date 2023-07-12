@@ -4,13 +4,14 @@ const Login = () => {
   const [nombreusuario, setNombreUsuario] = useState('');
   const [contrasena, setContrasena] = useState('');
   const [error, setError] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   
     try {
       // Enviar los datos al servidor para la autenticación
-      const response = await fetch('http://192.168.0.191/principal.php?route=usuarios/authenticate', {
+      const response = await fetch('http://192.168.0.191/principal.php?route=autenticacion', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -31,7 +32,7 @@ const Login = () => {
         throw new Error('Credenciales inválidas');
       }
     } catch (error) {
-      setError(error.message);
+      setErrorMessage(error.message);
     }
   };
   
@@ -41,7 +42,7 @@ const Login = () => {
       <div className=" relative max-w-lg  h-screen flex items-center justify-center bg-violeta5 shadow-xl">
         <div className="relative  max-w-md w-full mx-auto p-11 bg-white border border-gray-300 shadow-xl">
           <h2 className="text-2xl font-semibold mb-6">Iniciar sesión</h2>
-          {error && <p className="text-red-500 mb-4">{error}</p>}
+          {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label htmlFor="nombreusuario" className="block mb-2 text-sm font-medium text-gray-700">

@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import App from './Pages/App.tsx';
 import reportWebVitals from './reportWebVitals';
 import Modal from 'react-modal';
-import Login from './Pages/Login.tsx';
+import Login from './Pages/login.tsx';
 
 
 ReactDOM.render(
