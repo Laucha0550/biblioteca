@@ -37,34 +37,6 @@ const CrearLibro = () => {
       });
   };
 
-  const obtenerUltimoIdLibro = () => {
-    fetch('http://192.168.0.191/principal.php?route=ultid')
-      .then(response => response.json())
-      .then(data => {
-        if (data && data.length > 0) {
-          const ultimoId = data[0].ultimoIdLibro; // Obtener el último ID de libro
-          setUltimoIdLibro(ultimoId); // Asignar el último ID de libro a una variable de estado
-          guardarGenerosLibro(generosSeleccionados, ultimoId); // Llamar a la función para guardar los géneros
-        }
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  };
-
-  const handleGeneroChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const generoId = event.target.value;
-    if (event.target.checked) {
-      setGenerosSeleccionados(prevGenerosSeleccionados =>
-        prevGenerosSeleccionados + generoId + ','
-      );
-    } else {
-      setGenerosSeleccionados(prevGenerosSeleccionados =>
-        prevGenerosSeleccionados.replace(generoId + ',', '')
-      );
-    }
-  };
-
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
@@ -88,40 +60,6 @@ const CrearLibro = () => {
       .then(data => {
         setMensaje('Se ha guardado correctamente');
         limpiarCampos();
-        obtenerUltimoIdLibro(); // Obtener el último ID de libro y guardar los géneros
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  };
-
-  const obtenerGeneros = () => {
-    fetch('http://192.168.0.191/principal.php?route=generos')
-      .then(response => response.json())
-      .then(data => {
-        setGeneros(data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-
-  const guardarGenerosLibro = (idgeneros: string, ultimoId: string) => {
-    const generoLibro = {
-      idgenero: generos,
-      idlibro: ultimoId,
-    };
-
-    fetch('http://192.168.0.191/principal.php?route=rutagl', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(generoLibro),
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
       })
       .catch(error => {
         console.error(error);
@@ -232,21 +170,6 @@ const CrearLibro = () => {
           onChange={handleDescripcionChange}
           className="border border-gray-300 rounded p-2 w-full"
         ></textarea>
-        <br />
-        <label className="block mb-2">Géneros:</label>
-        {generos.map(genero => (
-          <label key={genero.idgenero} className="flex items-center">
-            <input
-              type="checkbox"
-              value={genero.idgenero}
-              checked={generosSeleccionados.includes(genero.idgenero)}
-              onChange={handleGeneroChange}
-              className="mr-2"
-            />
-            <span>{genero.nombregenero}</span>
-          </label>
-        ))}
-
         <button
           type="submit"
           className="bg-blue-500 text-white rounded px-4 py-2 mt-4"

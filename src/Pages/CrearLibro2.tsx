@@ -43,29 +43,6 @@ const CrearLibro = ({ onLibroCreado }: CrearLibroProps) => {
       });
   };
 
-  const obtenerGeneros = () => {
-    fetch('http://192.168.0.191/principal.php?route=generos')
-      .then(response => response.json())
-      .then(data => {
-        setGeneros(data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-  
-
-  const handleGeneroChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const generoId = event.target.value;
-    if (event.target.checked) {
-      setGenerosSeleccionados([...generosSeleccionados, generoId]);
-    } else {
-      setGenerosSeleccionados(generosSeleccionados.filter(idgenero => idgenero !== generoId.toString()));
-    }
-  };
-  
-
-
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
@@ -199,21 +176,6 @@ const CrearLibro = ({ onLibroCreado }: CrearLibroProps) => {
           onChange={handleDescripcionChange}
           className="border border-gray-300 rounded p-2 w-full"
         ></textarea>
-        <br />
-        <label className="block mb-2">Géneros:</label>
-        {generos.map(genero => (
-          <label key={genero.idgenero} className="flex items-center">
-            <input
-              type="checkbox"
-              value={genero.idgenero}
-              checked={generosSeleccionados.includes(genero.idgenero)}
-              onChange={handleGeneroChange}
-              className="mr-2"
-            />
-            <span>{genero.nombregenero}</span>
-          </label>
-        ))}
-
         <button
           type="submit"
           className="bg-blue-500 text-white rounded px-4 py-2 mt-4"
