@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [nombreusuario, setNombreUsuario] = useState('');
   const [contrasena, setContrasena] = useState('');
-  const [error, setError] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
-  const [errorMessage, setErrorMessage] = useState('')
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsLoggedIn(true);
+      navigate('/App');
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,26 +35,35 @@ const Login = () => {
 
         // Almacenar el token en el almacenamiento local (localStorage)
         localStorage.setItem('token', token);
+        setIsLoggedIn(true);
 
-        // Redireccionar a la página principal o ruta protegida usando React Router
-        navigate('/mlibro');
+        // Redireccionar a la página principal o ruta protegida utilizando useNavigate
+        if (isLoggedIn) {
+          navigate('/App');
+        }
       } else {
-        throw new Error('Credenciales inválidas');
+        const errorData = await response.json();
+        throw new Error(errorData.message);
       }
     } catch (error: unknown) {
       if (error instanceof Error) {
         setErrorMessage(error.message);
       } else {
         setErrorMessage('Ocurrió un error desconocido');
-      }}
+      }
+    }
   };
+
+  if (isLoggedIn) {
+    return null; // No renderizar el componente Login si el usuario ya ha iniciado sesión
+  }
 
   return (
     <div className="min-h-screen bg-fondologin bg-cover">
       <div className="relative max-w-lg h-screen flex items-center justify-center bg-violeta5 shadow-xl">
         <div className="relative max-w-md w-full mx-auto p-11 bg-white border border-gray-300 shadow-xl">
           <h2 className="text-2xl font-semibold mb-6">Iniciar sesión</h2>
-          {error && <p className="text-red-500 mb-4">{error}</p>}
+          {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label htmlFor="nombreusuario" className="block mb-2 text-sm font-medium text-gray-700">

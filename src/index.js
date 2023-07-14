@@ -1,22 +1,19 @@
 import './index.css';
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 import App from './Pages/App.tsx';
-import reportWebVitals from './reportWebVitals';
-import Modal from 'react-modal';
-import Login from './Pages/login.tsx';
+import Login from './Pages/login.tsx'
+import reportWebVitals from './reportWebVitals.js'
+import { BrowserRouter } from "react-router-dom";
 
-
-ReactDOM.render(
-  <BrowserRouter>
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
   <React.StrictMode>
-      
-        <Login />
-      
-    
-  </React.StrictMode>
-  </BrowserRouter>,
-  document.getElementById('root')
-);
+    <BrowserRouter>
+      <Login />
+      <App/>
+    </BrowserRouter>
 
+  </React.StrictMode>
+);
 reportWebVitals();
