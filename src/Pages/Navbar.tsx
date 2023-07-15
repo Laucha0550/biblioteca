@@ -44,6 +44,9 @@ const Navbar = ({ toggleSidebar, openModal }: NavbarProps) => {
               <Link to="/MLibro" className={`text-white relative ${hoveredLink === 'Mostar Libro' ? 'text-violeta5' : ''}`} onMouseEnter={() => handleMouseEnter('Mostrar Libro')} onMouseLeave={handleMouseLeave}>
                 <div className={`p-5 transition-colors duration-300 ${hoveredLink === 'Mostrar Libro' ? 'bg-violeta7' : 'bg-transparent'}`}>Mostrar Libros</div>
               </Link>
+              <Link to="/stock" className={`text-white relative ${hoveredLink === 'Stock' ? 'text-violeta5' : ''}`} onMouseEnter={() => handleMouseEnter('Stock')} onMouseLeave={handleMouseLeave}>
+                <div className={`p-5 transition-colors duration-300 ${hoveredLink === 'Stock' ? 'bg-violeta7' : 'bg-transparent'}`}>Stock</div>
+              </Link>
             </div>
           </div>
         </div>

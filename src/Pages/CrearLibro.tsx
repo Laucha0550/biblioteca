@@ -2,6 +2,7 @@ import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 
 interface Autor {
   idautor: string;
+  nomautor: string;
 }
 
 interface CrearLibroProps {
@@ -25,7 +26,7 @@ const CrearLibro = ({ onLibroCreado }: CrearLibroProps) => {
   }, []);
 
   const obtenerAutores = () => {
-    fetch('http://192.168.0.191/principal.php?route=autores')
+    fetch('http://192.168.0.191/principal.php?route=libautnom')
       .then(response => response.json())
       .then(data => {
         setAutores(data);
@@ -84,8 +85,11 @@ const CrearLibro = ({ onLibroCreado }: CrearLibroProps) => {
   };
 
   const handleIdAutorChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setIdAutor(event.target.value);
+    const selectedIdAutor = event.target.value;
+    setIdAutor(selectedIdAutor);
   };
+  
+  
 
   const handleImagenChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setImagen(event.target.value);
@@ -139,7 +143,7 @@ const CrearLibro = ({ onLibroCreado }: CrearLibroProps) => {
           <option value="">Seleccione un Autor</option>
           {autores.map(autor => (
             <option key={autor.idautor} value={autor.idautor}>
-              {autor.idautor}
+              {autor.nomautor}
             </option>
           ))}
         </select>
