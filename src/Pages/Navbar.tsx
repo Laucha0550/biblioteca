@@ -70,17 +70,17 @@ const Navbar = () => {
                   </div>
                 </Link>
                 <Link
-                  to="/CAutor"
-                  className={`text-white relative ${hoveredLink === 'Crear Autor' ? 'text-violeta5' : ''}`}
-                  onMouseEnter={() => handleMouseEnter('Crear Autor')}
+                  to="/App/Prestamo"
+                  className={`text-white relative ${hoveredLink === 'Prestamo' ? 'text-violeta5' : ''}`}
+                  onMouseEnter={() => handleMouseEnter('Prestamo')}
                   onMouseLeave={handleMouseLeave}
                 >
                   <div
                     className={`p-5 transition-colors duration-300 ${
-                      hoveredLink === 'Crear Autor' ? 'bg-violeta7' : 'bg-transparent'
+                      hoveredLink === 'Prestamo' ? 'bg-violeta7' : 'bg-transparent'
                     }`}
                   >
-                    Crear Autor
+                    Prestamo
                   </div>
                 </Link>
                 <Link
