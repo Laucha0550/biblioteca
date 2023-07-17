@@ -1,10 +1,11 @@
 import '../index.css';
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const [hoveredLink, setHoveredLink] = useState('');
+  const navigate = useNavigate();
 
   const handleMouseEnter = (linkName: string) => {
     setHoveredLink(linkName);
@@ -12,6 +13,12 @@ const Navbar = () => {
 
   const handleMouseLeave = () => {
     setHoveredLink('');
+  };
+
+  const handleLogout = () => {
+    // Elimina el token del localStorage y redirige al login
+    localStorage.removeItem('token');
+    navigate('/login');
   };
 
   return (
@@ -97,6 +104,13 @@ const Navbar = () => {
                     Mostrar Libros
                   </div>
                 </Link>
+                {/* Botón para cerrar sesión */}
+                <button
+                  onClick={handleLogout}
+                  className="text-white relative bg-transparent p-5 transition-colors duration-300"
+                >
+                  Cerrar sesión
+                </button>
               </div>
             </div>
           </div>
@@ -106,6 +120,7 @@ const Navbar = () => {
     </div>
   );
 };
+
 export default Navbar;
 
 
