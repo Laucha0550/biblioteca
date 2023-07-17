@@ -4,7 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import Navbar from './Navbar.tsx';
 import Home from './Home.tsx';
 import MostrarLibro from './MostrarLibro.tsx';
-import Prestamos from './Prestamos1.tsx';
+import PrestamoPage from './Prestamo.tsx';
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
       ||<Route path='/App' element= {<Navbar />}>
            <Route path='/App/MLibro' element= {<MostrarLibro/>}>
            </Route>
-          <Route path='/App/Prestamo' element= {<Prestamos />}> 
+          <Route path='/App/Prestamo' element= {<PrestamoPage />}> 
           </Route>
         </Route>
           {/* <Route path='/' element= {<Home />}>
