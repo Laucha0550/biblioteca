@@ -63,17 +63,17 @@ const Navbar = () => {
                   </div>
                 </Link>
                 <Link
-                  to="/Persona"
-                  className={`text-white relative ${hoveredLink === 'Persona' ? 'text-violeta5' : ''}`}
-                  onMouseEnter={() => handleMouseEnter('Persona')}
+                  to="/App/Stock"
+                  className={`text-white relative ${hoveredLink === 'Stock' ? 'text-violeta5' : ''}`}
+                  onMouseEnter={() => handleMouseEnter('Stock')}
                   onMouseLeave={handleMouseLeave}
                 >
                   <div
                     className={`p-5 transition-colors duration-300 ${
-                      hoveredLink === 'Persona' ? 'bg-violeta7' : 'bg-transparent'
+                      hoveredLink === 'Stock' ? 'bg-violeta7' : 'bg-transparent'
                     }`}
                   >
-                    Persona
+                    Stock
                   </div>
                 </Link>
                 <Link

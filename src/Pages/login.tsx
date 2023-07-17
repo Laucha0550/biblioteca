@@ -55,6 +55,7 @@ const Login = () => {
     localStorage.removeItem('token');
     setIsLoggedIn(false);
     <Login />// Redirigimos al login
+    navigate('/Login');
     window.location.reload();
     // Recargar la página después de 500 milisegundos
     // setTimeout(() => {
@@ -66,7 +67,7 @@ const Login = () => {
     return (
       <>
         <App />
-        <button onClick={handleLogout}>Cerrar sesión</button>
+        <button onClick={handleLogout}></button>
       </>
     );
   }
