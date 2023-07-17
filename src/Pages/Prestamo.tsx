@@ -10,7 +10,22 @@ interface PrestamoData {
   idmulta: string;
 }
 
-const PrestamoPage: React.FC = () => {
+interface Libro {
+  id: string;
+  nombrelibro: string;
+  isbn: string;
+  idautor: string;
+  imagen: string;
+  descripcion: string;
+  nomautor: string;
+}
+
+interface PrestamoPageProps {
+  librosSeleccionados: Libro[];
+  onLibroCreado: (idLibro: string) => void;
+}
+
+const PrestamoPage: React.FC<PrestamoPageProps> = ({ librosSeleccionados, onLibroCreado }) => {
   const [idStock, setIdStock] = useState('');
   const [idCliente, setIdCliente] = useState('');
   const [idEmpleado, setIdEmpleado] = useState('');
@@ -18,10 +33,6 @@ const PrestamoPage: React.FC = () => {
   const [fechaDevolucion, setFechaDevolucion] = useState('');
   const [fechaEntrega, setFechaEntrega] = useState('');
   const [idMulta, setIdMulta] = useState('');
-
-  const [stockOptions, setStockOptions] = useState([]);
-  const [clienteOptions, setClienteOptions] = useState([]);
-  const [empleadoOptions, setEmpleadoOptions] = useState([]);
 
   useEffect(() => {
     // Realiza la solicitud para obtener las opciones de stock
@@ -69,6 +80,7 @@ const PrestamoPage: React.FC = () => {
       if (response.ok) {
         // Se guardó el préstamo exitosamente
         console.log('Préstamo guardado correctamente');
+        onLibroCreado(idStock);
       } else {
         console.error('Error al guardar el préstamo');
       }
@@ -111,9 +123,9 @@ const PrestamoPage: React.FC = () => {
             className="w-full px-4 py-2 border rounded-md"
           >
             <option value="">Seleccionar Stock</option>
-            {stockOptions.map((stock: any) => (
-              <option key={stock.idstock} value={stock.idstock}>
-                {stock.idstock}
+            {librosSeleccionados.map((libro: Libro) => (
+              <option key={libro.id} value={libro.id}>
+                {libro.nombrelibro}
               </option>
             ))}
           </select>
@@ -128,11 +140,7 @@ const PrestamoPage: React.FC = () => {
             className="w-full px-4 py-2 border rounded-md"
           >
             <option value="">Seleccionar Cliente</option>
-            {clienteOptions.map((cliente: any) => (
-              <option key={cliente.idcliente} value={cliente.idcliente}>
-                {cliente.nombrecliente}
-              </option>
-            ))}
+            {/* Agrega las opciones de cliente aquí */}
           </select>
         </div>
 
@@ -145,11 +153,7 @@ const PrestamoPage: React.FC = () => {
             className="w-full px-4 py-2 border rounded-md"
           >
             <option value="">Seleccionar Empleado</option>
-            {empleadoOptions.map((empleado: any) => (
-              <option key={empleado.idempleado} value={empleado.idempleado}>
-                {empleado.nombreempleado}
-              </option>
-            ))}
+            {/* Agrega las opciones de empleado aquí */}
           </select>
         </div>
 
