@@ -77,7 +77,7 @@ const Navbar = () => {
                   </div>
                 </Link>
                 <Link
-                  to="/App/Prestamo"
+                  to="/App/SPrestamo"
                   className={`text-white relative ${hoveredLink === 'Prestamo' ? 'text-violeta5' : ''}`}
                   onMouseEnter={() => handleMouseEnter('Prestamo')}
                   onMouseLeave={handleMouseLeave}
