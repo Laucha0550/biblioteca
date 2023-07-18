@@ -1,34 +1,22 @@
-//import '../App.css';
 import React from 'react';
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route } from 'react-router-dom';
 import Navbar from './Navbar.tsx';
 import Home from './Home.tsx';
 import MostrarLibro from './MostrarLibro.tsx';
-import Prestamo from './Prestamo.tsx';
-import MostrarStock from './MostrarStock.tsx';
+import PrestamoPage from './Prestamo.tsx';
+import FormularioLibros from './Stock.tsx';
 
 function App() {
   return (
     <div>
+      <Navbar />
       <Routes>
-      ||<Route path='/App' element= {<Navbar />}>
-           <Route path='/App/MLibro' element= {<MostrarLibro/>}>
-           </Route>
-          <Route path='/App/Prestamo' element= {<Prestamo />}> 
-          </Route>
-          <Route path='/App/SPrestamo' element= {<MostrarStock />}> 
-          </Route>
-        </Route>
-          {/* <Route path='/' element= {<Home />}>
-        </Route> 
-        <Route path='/App/Home' element= {<Home />}>
-        </Route> */}
-        
-        <Route path='/Stock' element= {<Home />}>
-        </Route>
-        
+        <Route path="/App/Prestamo" element={<PrestamoPage />} />
+        <Route path="/App/Mlibro" element={<MostrarLibro />} />
+        <Route path="/App/Stock" element={<FormularioLibros />} />
       </Routes>
     </div>
   );
 }
+
 export default App;

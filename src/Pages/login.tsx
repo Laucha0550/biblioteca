@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import App from './App.tsx';
 
 const Login = () => {
   const [nombreusuario, setNombreUsuario] = useState('');
@@ -14,7 +15,7 @@ const Login = () => {
       setIsLoggedIn(true);
       navigate('/App');
     }
-  }, []);
+  }, [isLoggedIn]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -36,11 +37,6 @@ const Login = () => {
         // Almacenar el token en el almacenamiento local (localStorage)
         localStorage.setItem('token', token);
         setIsLoggedIn(true);
-
-        // Redireccionar a la página principal o ruta protegida utilizando useNavigate
-        if (isLoggedIn) {
-          navigate('/App');
-        }
       } else {
         const errorData = await response.json();
         throw new Error(errorData.message);
@@ -54,8 +50,26 @@ const Login = () => {
     }
   };
 
+  const handleLogout = () => {
+    // Elimina el token del localStorage y redirige al login
+    localStorage.removeItem('token');
+    setIsLoggedIn(false);
+    <Login />// Redirigimos al login
+    navigate('/Login');
+    window.location.reload();
+    // Recargar la página después de 500 milisegundos
+    // setTimeout(() => {
+    //   window.location.reload();
+    // }, 500);
+  };
+
   if (isLoggedIn) {
-    return null; // No renderizar el componente Login si el usuario ya ha iniciado sesión
+    return (
+      <>
+        <App />
+        <button onClick={handleLogout}></button>
+      </>
+    );
   }
 
   return (
