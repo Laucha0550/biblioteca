@@ -1,6 +1,7 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Prestamo from './Prestamo.tsx';
+import libro from '../img/icolibro.png';
 
 interface Libro {
   idlibro: string;
@@ -149,14 +150,15 @@ const MostrarStock = () => {
     <div className="p-4">
       <div className="fixed bottom-4 right-4 z-10"></div>
 
-      <div className="p-4 mt-12 text-black">
-        <input
+      <div className="p-1 w-20 mt-12 text-black">
+        <input  className="p-7"
           type="text"
           value={searchTerm}
           onChange={handleSearchTermChange}
           placeholder="Buscar por nombre de libro"
         />
       </div>
+      
       <div className="grid grid-cols-3 gap-4 mt-14 relative text-center text-black">
         {currentBooks.map(libro => (
           <div key={libro.idlibro} className="bg-violeta5 bg-opacity-50 shadow-xl text-center p-4 rounded">
@@ -164,13 +166,13 @@ const MostrarStock = () => {
             <p>ISBN: {libro.isbn}</p>
             <p>Autor: {libro.nomautor}</p>
             <p>Cantidad disponible: {getDisponible(libro.idlibro)}</p>
-            <img src={libro.imagen} alt="Portada del libro" className="w-full max-h-64 object-contain" />
+            <img src={libro.imagen} alt="Portada del libro" className="w-full max-h-64 object-contain " />
             <p>{libro.descripcion}</p>
             {librosSeleccionados.includes(libro) ? (
-              <button onClick={() => eliminarLibroSeleccionado(libro)}>Quitar de la lista</button>
+              <button className="bg-red-500 text-white p-2 rounded-xl text-xl w-full shadow-lg " onClick={() => eliminarLibroSeleccionado(libro)}>Quitar</button>
             ) : (
-              <button onClick={() => agregarLibroSeleccionado(libro)} disabled={getDisponible(libro.idlibro) === '0'}>
-                Agregar a la lista
+              <button className="bg-green-500 text-white p-2 rounded-xl text-xl w-full shadow-lg " onClick={() => agregarLibroSeleccionado(libro)} disabled={getDisponible(libro.idlibro) === '0'}>
+                Agregar
               </button>
             )}
           </div>
@@ -196,23 +198,7 @@ const MostrarStock = () => {
         </div>
       )}
 
-      {librosSeleccionados.length > 0 && (
-        <div className="mt-16">
-          <button onClick={handleMostrarListaSeleccionada}>
-            {mostrarListaSeleccionada ? 'Ocultar lista seleccionada' : 'Mostrar lista seleccionada'}
-          </button>
-          {mostrarListaSeleccionada && (
-            <div>
-              <h2>Lista de libros seleccionados:</h2>
-              <ul>
-                {librosSeleccionados.map(libro => (
-                  <li key={libro.idlibro}>{libro.nombrelibro}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-      )}
+     
 
       {mostrarFormularioPrestamo && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
@@ -222,9 +208,26 @@ const MostrarStock = () => {
           </div>
         </div>
       )}
-
-      <button className="mt-16" onClick={handleMostrarFormularioPrestamo}>
-        Mostrar formulario de Préstamo
+      {librosSeleccionados.length > 0 && (
+        <div className="mt-16 fixed bottom-20 right-4">
+          <button className=" bg-violeta5 text-white p-5 rounded-full opacity-90"onClick={handleMostrarListaSeleccionada}>
+            {mostrarListaSeleccionada ? <img src={libro} className='w-10 h-10' /> : <img src={libro} className='w-10 h-10 ' />}
+          </button>
+          {mostrarListaSeleccionada && (
+            <div className="mt-16 fixed bottom-20 right-20 ">
+              <h2>Lista de libros seleccionados:</h2>
+              <ul>
+                {librosSeleccionados.map(libro => (
+                  <li key={libro.idlibro}>{libro.nombrelibro}</li>
+                ))}
+              </ul>
+            </div>
+            
+          )}
+        </div>
+      )}
+      <button className="fixed bottom-4 right-4 z-10 bg-violeta5 text-white p-5 rounded-full opacity-90" onClick={handleMostrarFormularioPrestamo}>
+        Realizar Prestamo
       </button>
     </div>
   );

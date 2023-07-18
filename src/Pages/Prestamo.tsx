@@ -100,7 +100,7 @@ const PrestamoPage: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-4">Página de Préstamos</h1>
+      <h1 className="text-3xl font-bold mb-4">Realizar Prestamo</h1>
       <form onSubmit={handleSubmit} className="max-w-md">
         <div className="mb-4">
           <label className="block mb-2">ID Stock:</label>
@@ -197,7 +197,7 @@ const PrestamoPage: React.FC = () => {
           />
         </div>
 
-        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">
+        <button type="submit" className="bg-violeta5 text-white px-4 py-2 rounded-md">
           Guardar Préstamo
         </button>
       </form>
