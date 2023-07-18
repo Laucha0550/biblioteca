@@ -15,7 +15,7 @@ const Login = () => {
       setIsLoggedIn(true);
       navigate('/App');
     }
-  }, [isLoggedIn]);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -36,6 +36,7 @@ const Login = () => {
 
         // Almacenar el token en el almacenamiento local (localStorage)
         localStorage.setItem('token', token);
+        localStorage.setItem('nombreUsuario', nombreusuario);
         setIsLoggedIn(true);
       } else {
         const errorData = await response.json();
@@ -51,23 +52,16 @@ const Login = () => {
   };
 
   const handleLogout = () => {
-    // Elimina el token del localStorage y redirige al login
+    // Elimina el token del localStorage y establece isLoggedIn a false
     localStorage.removeItem('token');
     setIsLoggedIn(false);
-    <Login />// Redirigimos al login
-    navigate('/Login');
-    window.location.reload();
-    // Recargar la página después de 500 milisegundos
-    // setTimeout(() => {
-    //   window.location.reload();
-    // }, 500);
   };
 
   if (isLoggedIn) {
     return (
       <>
         <App />
-        <button onClick={handleLogout}></button>
+        <button onClick={handleLogout}>Cerrar sesión</button>
       </>
     );
   }

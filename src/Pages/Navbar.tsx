@@ -35,7 +35,7 @@ const Navbar = () => {
             <div className="flex items-center space-x-4">
               <div className="hidden lg:flex space-x-4">
                 <Link
-                  to="/menu"
+                  to="/App/Home"
                   className={`text-white relative ${hoveredLink === 'Inicio' ? 'text-violeta5' : ''}`}
                   onMouseEnter={() => handleMouseEnter('Inicio')}
                   onMouseLeave={handleMouseLeave}
