@@ -61,7 +61,7 @@ const Login = () => {
     return (
       <>
         <App />
-        <button onClick={handleLogout}>Cerrar sesión</button>
+        <button onClick={handleLogout}></button>
       </>
     );
   }

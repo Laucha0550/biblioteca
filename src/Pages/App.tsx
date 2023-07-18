@@ -4,7 +4,9 @@ import Navbar from './Navbar.tsx';
 import Home from './Home.tsx';
 import MostrarLibro from './MostrarLibro.tsx';
 import PrestamoPage from './Prestamo.tsx';
+import MostrarStock from './MostrarStock.tsx';
 import FormularioLibros from './Stock.tsx';
+// import MostrarStock from './MostrarStock.tsx';
 
 function App() {
   return (
@@ -12,7 +14,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/Prestamo" element={<PrestamoPage />} />
+        <Route path="/SPrestamo" element={<MostrarStock />} />
         <Route path="/Mlibro" element={<MostrarLibro />} />
         <Route path="/Stock" element={<FormularioLibros />} />
       </Routes>
