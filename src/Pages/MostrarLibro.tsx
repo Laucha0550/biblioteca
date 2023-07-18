@@ -32,7 +32,7 @@ const MostrarLibro = () => {
   const [showCrearLibroGeneros, setShowCrearLibroGeneros] = useState(false);
   const [idLibroCreado, setIdLibroCreado] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [booksPerPage, setBooksPerPage] = useState(9);
+  const [booksPerPage, setBooksPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
@@ -151,7 +151,7 @@ const MostrarLibro = () => {
         generosSeleccionados={generosSeleccionados}
         handleGeneroSeleccionado={handleGeneroSeleccionado}
       />
-      <div className="grid grid-cols-3 gap-4 mt-14 relative text-center text-black">
+      <div className="grid grid-cols-5 gap-4 mt-14 relative text-center text-black">
         {currentBooks.map(libro => (
           <div key={libro.id} className="bg-violeta5 bg-opacity-50 shadow-xl text-center p-4 rounded">
             <h2 className="text-lg font-bold">{libro.nombrelibro}</h2>
