@@ -13,7 +13,7 @@ const Login = () => {
     const token = localStorage.getItem('token');
     if (token) {
       setIsLoggedIn(true);
-      navigate('/App');
+      navigate('/App/');
     }
   }, []);
 
