@@ -28,7 +28,8 @@ interface MostrarStocksProps {
 }
 
 // const MostrarStock = () => {
-const MostrarStock: React.FC<MostrarStocksProps> = ({ isEmpleado }) => {
+  const MostrarStock: React.FC<MostrarStocksProps> = ({ isEmpleado }) => {
+
   const [libros, setLibros] = useState<Libro[]>([]);
   const [generos, setGeneros] = useState<Genero[]>([]);
   const [generosSeleccionados, setGenerosSeleccionados] = useState<string[]>([]);
@@ -160,16 +161,17 @@ const MostrarStock: React.FC<MostrarStocksProps> = ({ isEmpleado }) => {
     <div className="p-4">
       <div className="fixed bottom-4 right-4 z-10"></div>
 
-      <div className="p-1 w-20 mt-12 text-black">
-        <input  className="p-7"
+      <div className="p-2 md:w-1/4 lg:w-1/5 mt-12 text-black">
+        <input
+          className="p-3 brown-bg rounded w-full"
           type="text"
           value={searchTerm}
           onChange={handleSearchTermChange}
           placeholder="Buscar por nombre de libro"
         />
       </div>
-      
-      <div className="grid grid-cols-5 gap-4 mt-14 relative text-center text-black">
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-14 relative text-center text-black">
         {currentBooks.map(libro => (
           <div key={libro.idlibro} className="bg-violeta5 bg-opacity-50 shadow-xl text-center p-4 rounded">
             <h2 className="text-lg font-bold">{libro.nombrelibro}</h2>
@@ -190,23 +192,25 @@ const MostrarStock: React.FC<MostrarStocksProps> = ({ isEmpleado }) => {
       </div>
 
       {totalPages > 1 && (
-        <div className="pagination p-4 mt-12 text-black">
-          <button
-            onClick={previousPage}
-            className={`pagination-item ${currentPage === 1 ? 'disabled' : ''}`}
-            disabled={currentPage === 1}
-          >
-            Página anterior
-          </button>
-          <button
-            onClick={nextPage}
-            className={`pagination-item ${currentPage === totalPages ? 'disabled' : ''}`}
-            disabled={currentPage === totalPages}
-          >
-            Página siguiente
-          </button>
-        </div>
-      )}
+  <div className="pagination p-4 mt-12 text-black">
+    <button
+      onClick={previousPage}
+      className={`pagination-item brown-bg ${currentPage === 1 ? 'disabled' : ''}`}
+      disabled={currentPage === 1}
+    >
+      Página anterior
+    </button>
+    <button
+      onClick={nextPage}
+      className={`pagination-item brown-bg ${currentPage === totalPages ? 'disabled' : ''}`}
+      disabled={currentPage === totalPages}
+    >
+      Página siguiente
+    </button>
+  </div>
+)}
+
+
 
       {mostrarFormularioPrestamo && librosSeleccionados.length > 0 && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
