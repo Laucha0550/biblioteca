@@ -35,6 +35,7 @@ const App: React.FC<AppProps> = () => {
       {/* Contenido de las páginas */}
       <Routes>
         <Route path="/" element={<Home isEmpleado={isEmpleado} />} />
+        <Route path="/Home" element={<Home isEmpleado={isEmpleado} />} />
         <Route path="/SPrestamo" element={<MostrarStock isEmpleado={isEmpleado} />} />
         <Route path="/Mlibro" element={<MostrarLibro isEmpleado={isEmpleado} />} />
         <Route path="/Stock" element={<FormularioLibros isEmpleado={isEmpleado} />} />

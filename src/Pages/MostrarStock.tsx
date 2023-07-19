@@ -47,11 +47,11 @@ const MostrarStock: React.FC<MostrarStocksProps> = ({ isEmpleado }) => {
   }, []);
 
   const obtenerLibros = () => {
-    let url = 'http://192.168.0.191/principal.php?route=libautnom';
+    let url = 'https://biblioteca23.000webhostapp.com/principal.php?route=libautnom';
 
     if (generosSeleccionados.length > 0) {
       const generosQuery = generosSeleccionados.join(',');
-      url = `http://192.168.0.191/principal.php?route=lixgen=${generosQuery}`;
+      url = `https://biblioteca23.000webhostapp.com/principal.php?route=lixgen=${generosQuery}`;
     }
 
     fetch(url)
@@ -65,7 +65,7 @@ const MostrarStock: React.FC<MostrarStocksProps> = ({ isEmpleado }) => {
   };
 
   const obtenerGeneros = () => {
-    fetch('http://192.168.0.191/principal.php?route=generos')
+    fetch('https://biblioteca23.000webhostapp.com/principal.php?route=generos')
       .then(response => response.json())
       .then(data => {
         setGeneros(data);
@@ -76,7 +76,7 @@ const MostrarStock: React.FC<MostrarStocksProps> = ({ isEmpleado }) => {
   };
 
   const obtenerStock = () => {
-    fetch('http://192.168.0.191/principal.php?route=stocks')
+    fetch('https://biblioteca23.000webhostapp.com/principal.php?route=stocks')
       .then(response => response.json())
       .then(data => {
         setStocks(data);
