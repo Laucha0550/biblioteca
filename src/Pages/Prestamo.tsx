@@ -26,11 +26,19 @@ interface listaLibros {
   librosSeleccionados: Libro[];
 }
 
+const obtenerFechaActual = () => {
+  const fecha = new Date();
+  const year = fecha.getFullYear();
+  const month = String(fecha.getMonth() + 1).padStart(2, '0');
+  const day = String(fecha.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
 const PrestamoPage: React.FC<listaLibros> = ({ librosSeleccionados }) => {
   const [idStock, setIdStock] = useState('');
   const [idCliente, setIdCliente] = useState('');
   const [idEmpleado, setIdEmpleado] = useState('');
-  const [fechaPrestamo, setFechaPrestamo] = useState('');
+  const [fechaPrestamo, setFechaPrestamo] = useState(obtenerFechaActual());
   const [fechaDevolucion, setFechaDevolucion] = useState('');
   const [fechaEntrega, setFechaEntrega] = useState('');
   const [idMulta, setIdMulta] = useState('');
@@ -38,8 +46,9 @@ const PrestamoPage: React.FC<listaLibros> = ({ librosSeleccionados }) => {
   const [clienteOptions, setClienteOptions] = useState<any[]>([]);
   const [empleadoOptions, setEmpleadoOptions] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [searchResults, setSearchResults] = useState<any[]>([]);
-  const location = useLocation();
+  const [searchResult, setSearchResult] = useState<any | null>(null);
+  const [guardadoExitoso, setGuardadoExitoso] = useState(false);
+  const [errorGuardado, setErrorGuardado] = useState('');
 
   useEffect(() => {
     fetch('http://192.168.0.191/principal.php?route=stocks')
@@ -62,12 +71,13 @@ const PrestamoPage: React.FC<listaLibros> = ({ librosSeleccionados }) => {
     const filteredResults = clienteOptions.filter(cliente =>
       cliente.nombrecliente.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    setSearchResults(filteredResults);
+    setSearchResult(null);
+    setSearchResult(filteredResults.length > 0 ? filteredResults[0] : null);
   }, [searchTerm, clienteOptions]);
 
   useEffect(() => {
     if (librosSeleccionados.length > 0) {
-      const libroSeleccionado = librosSeleccionados[0]; 
+      const libroSeleccionado = librosSeleccionados[0];
       const idStockDisponible = obtenerIdStockDisponible(libroSeleccionado.idlibro);
 
       if (idStockDisponible) {
@@ -107,30 +117,34 @@ const PrestamoPage: React.FC<listaLibros> = ({ librosSeleccionados }) => {
       });
 
       if (response.ok) {
-        const prestamoResponse = await response.json(); 
-
-        const stockResponse = await fetch(
-          `http://192.168.0.191/principal.php?route=stocks/${idStock}`,
-          {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ disponible: 'false' }),
-          }
-        );
-
-        if (stockResponse.ok) {
+        const responseData = await response.json();
+        if (responseData.success) {
           console.log('Préstamo guardado correctamente');
+          setGuardadoExitoso(true);
+          setErrorGuardado('');
+          resetearCampos();
         } else {
-          console.error('Error al cambiar el estado del stock');
+          setErrorGuardado('Préstamo guardado correctamente');
+          setGuardadoExitoso(false);
         }
       } else {
-        console.error('Error al guardar el préstamo');
+        setErrorGuardado('Error de conexión');
+        setGuardadoExitoso(false);
       }
     } catch (error) {
-      console.error('Error de conexión:', error);
+      setErrorGuardado('Error de conexión');
+      setGuardadoExitoso(false);
     }
+  };
+
+  const resetearCampos = () => {
+    setIdCliente('');
+    setIdEmpleado('');
+    setFechaDevolucion('');
+    setFechaEntrega('');
+    setIdMulta('');
+    setSearchTerm('');
+    setSearchResult(null);
   };
 
   const handleDateChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -182,17 +196,15 @@ const PrestamoPage: React.FC<listaLibros> = ({ librosSeleccionados }) => {
             onChange={handleSearchChange}
             className="w-full px-4 py-2 border rounded-md"
           />
-          {searchResults.length > 0 && (
+          {searchResult && (
             <ul>
-              {searchResults.map(cliente => (
-                <li
-                  key={cliente.idcliente}
-                  onClick={() => setIdCliente(cliente.idcliente)}
-                  className="cursor-pointer"
-                >
-                  {cliente.nombrecliente}
-                </li>
-              ))}
+              <li
+                key={searchResult.idcliente}
+                onClick={() => setIdCliente(searchResult.idcliente)}
+                className="cursor-pointer"
+              >
+                {searchResult.nombrecliente}
+              </li>
             </ul>
           )}
         </div>
@@ -248,17 +260,6 @@ const PrestamoPage: React.FC<listaLibros> = ({ librosSeleccionados }) => {
         </div>
 
         <div className="mb-4">
-          <label className="block mb-2">ID Multa:</label>
-          <input
-            type="text"
-            name="idmulta"
-            value={idMulta}
-            onChange={handleMultaChange}
-            className="w-full px-4 py-2 border rounded-md"
-          />
-        </div>
-
-        <div className="mb-4">
           <label className="block mb-2">Libros Seleccionados:</label>
           <ul>
             {librosSeleccionados.map(libro => (
@@ -267,8 +268,26 @@ const PrestamoPage: React.FC<listaLibros> = ({ librosSeleccionados }) => {
           </ul>
         </div>
 
+        {guardadoExitoso && (
+          <p className="text-green-500 font-semibold">Préstamo guardado exitosamente.</p>
+        )}
+        {errorGuardado && (
+          <p className="text-green-500 font-semibold">{errorGuardado}</p>
+        )}
+
         <button type="submit" className="bg-violeta5 text-white px-4 py-2 rounded-md">
           Guardar Préstamo
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            resetearCampos();
+            setGuardadoExitoso(false);
+            setErrorGuardado('');
+          }}
+          className="bg-gray-400 text-white px-4 py-2 rounded-md mt-2"
+        >
+          Cargar Otro Préstamo
         </button>
       </form>
     </div>
