@@ -28,7 +28,7 @@ const Navbar = () => {
           <div className="flex items-center justify-between h-16">
             {/* Elementos del lado izquierdo */}
             <div className="flex items-center">
-              <h1 className="text-white text-lg font-semibold focus:outline-none">Biblioteca Maximo Meridio 3ero</h1>
+              <h1 className="text-white text-lg font-semibold focus:outline-none">Biblioteca La Librería</h1>
             </div>
 
             {/* Elementos del lado derecho */}
@@ -49,7 +49,7 @@ const Navbar = () => {
                   </div>
                 </Link>
                 <Link
-                  to="/App/Persona"
+                  to="/App/Pedido"
                   className={`text-white relative ${hoveredLink === 'Genero' ? 'text-violeta5' : ''}`}
                   onMouseEnter={() => handleMouseEnter('Genero')}
                   onMouseLeave={handleMouseLeave}
@@ -59,7 +59,7 @@ const Navbar = () => {
                       hoveredLink === 'Genero' ? 'bg-violeta7' : 'bg-transparent'
                     }`}
                   >
-                    Genero
+                    Pedido
                   </div>
                 </Link>
                 <Link

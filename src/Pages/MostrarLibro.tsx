@@ -23,8 +23,11 @@ interface SidebarProps {
   handleGeneroSeleccionado: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
+interface MostrarLibrosProps {
+  isEmpleado: boolean; // Prop para verificar si el usuario es un cliente o no
+}
 
-const MostrarLibro = () => {
+const MostrarLibro: React.FC<MostrarLibrosProps> = ({ isEmpleado }) => {
   const [libros, setLibros] = useState<Libro[]>([]);
   const [generos, setGeneros] = useState<Genero[]>([]);
   const [generosSeleccionados, setGenerosSeleccionados] = useState<string[]>([]);
@@ -146,11 +149,7 @@ const MostrarLibro = () => {
           placeholder="Buscar por nombre de libro"
         />
       </div>
-      <Sidebar
-        generos={generos}
-        generosSeleccionados={generosSeleccionados}
-        handleGeneroSeleccionado={handleGeneroSeleccionado}
-      />
+      
       <div className="grid grid-cols-5 gap-4 mt-14 relative text-center text-black">
         {currentBooks.map(libro => (
           <div key={libro.id} className="bg-violeta5 bg-opacity-50 shadow-xl text-center p-4 rounded">
@@ -211,29 +210,5 @@ const MostrarLibro = () => {
     </div>
   );
 };
-
-const Sidebar = ({
-  generos,
-  generosSeleccionados,
-  handleGeneroSeleccionado,
-}: SidebarProps) => (
-  <div className="hidden lg:block fixed backdrop-blur inset-0 top-[3.8125rem] right-auto w-[16rem] pb-10 px-8 overflow-y-auto">
-    <ul className="p-4">
-      {generos.map(genero => (
-        <li className="mb-2" key={genero.idgenero}>
-          <label>
-            <input
-              type="checkbox"
-              value={genero.idgenero}
-              onChange={handleGeneroSeleccionado}
-              checked={generosSeleccionados.includes(genero.idgenero)}
-            />
-            {genero.nombregenero}
-          </label>
-        </li>
-      ))}
-    </ul>
-  </div>
-);
 
 export default MostrarLibro;

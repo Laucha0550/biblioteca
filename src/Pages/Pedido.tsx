@@ -1,6 +1,5 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import PrestamoPage from './Prestamo.tsx';
+import PedidoCarga from './PedidoCarga';
 import libro from '../img/icolibro.png';
 
 interface Libro {
@@ -23,12 +22,11 @@ interface Stock {
   idlibro: string;
   disponible: string;
 }
-interface MostrarStocksProps {
+interface PedidosProps {
   isEmpleado: boolean; // Prop para verificar si el usuario es un cliente o no
 }
 
-// const MostrarStock = () => {
-const MostrarStock: React.FC<MostrarStocksProps> = ({ isEmpleado }) => {
+const PedidoPage: React.FC<PedidosProps> = ({ isEmpleado }) => {
   const [libros, setLibros] = useState<Libro[]>([]);
   const [generos, setGeneros] = useState<Genero[]>([]);
   const [generosSeleccionados, setGenerosSeleccionados] = useState<string[]>([]);
@@ -36,7 +34,7 @@ const MostrarStock: React.FC<MostrarStocksProps> = ({ isEmpleado }) => {
   const [booksPerPage, setBooksPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState('');
   const [stocks, setStocks] = useState<Stock[]>([]);
-  const [librosSeleccionados, setLibrosSeleccionados] = useState<{ idlibro: string, nombrelibro: string }[]>([]);
+  const [librosSeleccionados, setLibrosSeleccionados] = useState<Libro[]>([]);
   const [mostrarListaSeleccionada, setMostrarListaSeleccionada] = useState(false);
   const [mostrarFormularioPrestamo, setMostrarFormularioPrestamo] = useState(false);
 
@@ -86,6 +84,11 @@ const MostrarStock: React.FC<MostrarStocksProps> = ({ isEmpleado }) => {
       });
   };
 
+  const limpiarLibrosSeleccionados = () => {
+    setLibrosSeleccionados([]); // Limpia la lista de libros seleccionados
+    setMostrarFormularioPrestamo(false); // Cierra el formulario de carga de pedido
+  };
+  
   const handleSearchTermChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
     setCurrentPage(1); // Resetear la página actual al realizar una búsqueda
@@ -125,17 +128,11 @@ const MostrarStock: React.FC<MostrarStocksProps> = ({ isEmpleado }) => {
     return stockSum.toString();
   };
 
-  
   const agregarLibroSeleccionado = (libro: Libro) => {
     const disponible = getDisponible(libro.idlibro);
 
     if (disponible !== '0' && librosSeleccionados.length < 3) {
-      const nuevoLibroSeleccionado = {
-        idlibro: libro.idlibro,
-        nombrelibro: libro.nombrelibro
-      };
-
-      setLibrosSeleccionados([...librosSeleccionados, nuevoLibroSeleccionado]);
+      setLibrosSeleccionados([...librosSeleccionados, libro]);
     }
   };
 
@@ -149,11 +146,19 @@ const MostrarStock: React.FC<MostrarStocksProps> = ({ isEmpleado }) => {
   };
 
   const handleMostrarFormularioPrestamo = () => {
+    // Abre el formulario de carga de pedido
     setMostrarFormularioPrestamo(true);
   };
 
   const handleCerrarFormularioPrestamo = () => {
-    setMostrarFormularioPrestamo(false);
+    // Cierra el formulario de carga de pedido
+    // setMostrarFormularioPrestamo(false);
+    limpiarLibrosSeleccionados();
+  };
+
+  const handleFormSubmit = () => {
+    // Abre el formulario de carga de pedido
+    setMostrarFormularioPrestamo(true);
   };
 
   return (
@@ -161,14 +166,15 @@ const MostrarStock: React.FC<MostrarStocksProps> = ({ isEmpleado }) => {
       <div className="fixed bottom-4 right-4 z-10"></div>
 
       <div className="p-1 w-20 mt-12 text-black">
-        <input  className="p-7"
+        <input
+          className="p-7"
           type="text"
           value={searchTerm}
           onChange={handleSearchTermChange}
           placeholder="Buscar por nombre de libro"
         />
       </div>
-      
+
       <div className="grid grid-cols-5 gap-4 mt-14 relative text-center text-black">
         {currentBooks.map(libro => (
           <div key={libro.idlibro} className="bg-violeta5 bg-opacity-50 shadow-xl text-center p-4 rounded">
@@ -178,7 +184,7 @@ const MostrarStock: React.FC<MostrarStocksProps> = ({ isEmpleado }) => {
             <p>Cantidad disponible: {getDisponible(libro.idlibro)}</p>
             <img src={libro.imagen} alt="Portada del libro" className="w-full max-h-64 object-contain " />
             <p>{libro.descripcion}</p>
-            {librosSeleccionados.some(l => l.idlibro === libro.idlibro) ? (
+            {librosSeleccionados.includes(libro) ? (
               <button className="bg-red-500 text-white p-2 rounded-xl text-xl w-full shadow-lg " onClick={() => eliminarLibroSeleccionado(libro)}>Quitar</button>
             ) : (
               <button className="bg-green-500 text-white p-2 rounded-xl text-xl w-full shadow-lg " onClick={() => agregarLibroSeleccionado(libro)} disabled={getDisponible(libro.idlibro) === '0'}>
@@ -208,17 +214,17 @@ const MostrarStock: React.FC<MostrarStocksProps> = ({ isEmpleado }) => {
         </div>
       )}
 
-      {mostrarFormularioPrestamo && librosSeleccionados.length > 0 && (
+      {mostrarFormularioPrestamo && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-4 rounded shadow-lg">
-            <PrestamoPage librosSeleccionados={librosSeleccionados} />
-            <button onClick={handleCerrarFormularioPrestamo}>Cerrar</button>
+            <PedidoCarga librosSeleccionados={librosSeleccionados} onClose={handleCerrarFormularioPrestamo} />
           </div>
         </div>
       )}
+
       {librosSeleccionados.length > 0 && (
         <div className="mt-16 fixed bottom-20 right-4">
-          <button className=" bg-violeta5 text-white p-5 rounded-full opacity-90"onClick={handleMostrarListaSeleccionada}>
+          <button className=" bg-violeta5 text-white p-5 rounded-full opacity-90" onClick={handleMostrarListaSeleccionada}>
             {mostrarListaSeleccionada ? <img src={libro} className='w-10 h-10' /> : <img src={libro} className='w-10 h-10 ' />}
           </button>
           {mostrarListaSeleccionada && (
@@ -233,11 +239,12 @@ const MostrarStock: React.FC<MostrarStocksProps> = ({ isEmpleado }) => {
           )}
         </div>
       )}
-      <button className="fixed bottom-4 right-4 z-10 bg-violeta5 text-white p-5 rounded-full opacity-90" onClick={handleMostrarFormularioPrestamo}>
+
+      <button className="fixed bottom-4 right-4 z-10 bg-violeta5 text-white p-5 rounded-full opacity-90" onClick={handleFormSubmit}>
         Realizar Prestamo
       </button>
     </div>
   );
 };
 
-export default MostrarStock;
+export default PedidoPage;

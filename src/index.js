@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import App from './Pages/App.tsx';
 import Login from './Pages/login.tsx';
 import reportWebVitals from './reportWebVitals.js';
+import './index.css';
 
 const isLoggedIn = () => {
   // Comprueba si el usuario está autenticado verificando si existe un token en el localStorage
