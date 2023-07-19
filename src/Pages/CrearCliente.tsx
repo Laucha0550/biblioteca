@@ -234,7 +234,6 @@ const CrearClienteUsuario: React.FC<CrearClienteUsuariosProps> = ({ isEmpleado }
               className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:border-blue-500"
             />
           </div>
-                         {/* Mostrar usuarios existentes */}
       <div className="mt-4">
           <h3 className="text-lg font-bold mb-2">Usuarios Existentes:</h3>
           <ul>
@@ -255,7 +254,6 @@ const CrearClienteUsuario: React.FC<CrearClienteUsuariosProps> = ({ isEmpleado }
       </div>
       <div>
       
-        {/* Formulario de Usuario */}
         <h2 className="text-xl font-bold col-start-3 col-end-4 mb-4">Formulario de Usuario</h2>
         <button
           onClick={handleShowUserModal}
@@ -265,8 +263,6 @@ const CrearClienteUsuario: React.FC<CrearClienteUsuariosProps> = ({ isEmpleado }
         </button>
        
         
-
-        {/* Modal para agregar usuario */}
         {showUserModal && (
           <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
             <div className="bg-white p-8 rounded shadow">
