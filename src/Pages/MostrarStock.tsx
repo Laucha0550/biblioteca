@@ -1,6 +1,6 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import Prestamo from './Prestamo.tsx';
+import PrestamoPage from './Prestamo.tsx';
 import libro from '../img/icolibro.png';
 
 interface Libro {
@@ -36,7 +36,7 @@ const MostrarStock: React.FC<MostrarStocksProps> = ({ isEmpleado }) => {
   const [booksPerPage, setBooksPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState('');
   const [stocks, setStocks] = useState<Stock[]>([]);
-  const [librosSeleccionados, setLibrosSeleccionados] = useState<Libro[]>([]);
+  const [librosSeleccionados, setLibrosSeleccionados] = useState<{ idlibro: string, nombrelibro: string }[]>([]);
   const [mostrarListaSeleccionada, setMostrarListaSeleccionada] = useState(false);
   const [mostrarFormularioPrestamo, setMostrarFormularioPrestamo] = useState(false);
 
@@ -125,11 +125,17 @@ const MostrarStock: React.FC<MostrarStocksProps> = ({ isEmpleado }) => {
     return stockSum.toString();
   };
 
+  
   const agregarLibroSeleccionado = (libro: Libro) => {
     const disponible = getDisponible(libro.idlibro);
 
     if (disponible !== '0' && librosSeleccionados.length < 3) {
-      setLibrosSeleccionados([...librosSeleccionados, libro]);
+      const nuevoLibroSeleccionado = {
+        idlibro: libro.idlibro,
+        nombrelibro: libro.nombrelibro
+      };
+
+      setLibrosSeleccionados([...librosSeleccionados, nuevoLibroSeleccionado]);
     }
   };
 
@@ -172,7 +178,7 @@ const MostrarStock: React.FC<MostrarStocksProps> = ({ isEmpleado }) => {
             <p>Cantidad disponible: {getDisponible(libro.idlibro)}</p>
             <img src={libro.imagen} alt="Portada del libro" className="w-full max-h-64 object-contain " />
             <p>{libro.descripcion}</p>
-            {librosSeleccionados.includes(libro) ? (
+            {librosSeleccionados.some(l => l.idlibro === libro.idlibro) ? (
               <button className="bg-red-500 text-white p-2 rounded-xl text-xl w-full shadow-lg " onClick={() => eliminarLibroSeleccionado(libro)}>Quitar</button>
             ) : (
               <button className="bg-green-500 text-white p-2 rounded-xl text-xl w-full shadow-lg " onClick={() => agregarLibroSeleccionado(libro)} disabled={getDisponible(libro.idlibro) === '0'}>
@@ -202,12 +208,10 @@ const MostrarStock: React.FC<MostrarStocksProps> = ({ isEmpleado }) => {
         </div>
       )}
 
-     
-
-      {mostrarFormularioPrestamo && (
+      {mostrarFormularioPrestamo && librosSeleccionados.length > 0 && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-4 rounded shadow-lg">
-            <Prestamo />
+            <PrestamoPage librosSeleccionados={librosSeleccionados} />
             <button onClick={handleCerrarFormularioPrestamo}>Cerrar</button>
           </div>
         </div>
@@ -226,7 +230,6 @@ const MostrarStock: React.FC<MostrarStocksProps> = ({ isEmpleado }) => {
                 ))}
               </ul>
             </div>
-            
           )}
         </div>
       )}
