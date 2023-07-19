@@ -13,7 +13,11 @@ interface Stock {
   disponible: boolean;
 }
 
-const FormularioLibros = () => {
+interface FormularioLibrosProps {
+  isEmpleado: boolean; // Prop para verificar si el usuario es un cliente o no
+}
+
+const FormularioLibros: React.FC<FormularioLibrosProps> = ({ isEmpleado }) => {
   const [libros, setLibros] = useState<Libro[]>([]);
   const [cantidad, setCantidad] = useState<number>(1);
 
@@ -55,57 +59,59 @@ const FormularioLibros = () => {
 
   return (
     <div className="max-w-md mx-auto mt-16 p-4 bg-gray-100 rounded shadow">
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label htmlFor="libro" className="block text-gray-700 font-bold mb-2">
-            Libro:
-          </label>
-          <select
-            id="libro"
-            name="libro"
-            className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:border-blue-500"
+      {!isEmpleado && ( // Mostrar el formulario solo si el usuario NO es un cliente
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label htmlFor="libro" className="block text-gray-700 font-bold mb-2">
+              Libro:
+            </label>
+            <select
+              id="libro"
+              name="libro"
+              className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:border-blue-500"
+            >
+              {libros.map((libro) => (
+                <option key={libro.idlibro} value={libro.idlibro}>
+                  {libro.nombrelibro}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="disponible" className="block text-gray-700 font-bold mb-2">
+              Disponible:
+            </label>
+            <input
+              type="checkbox"
+              id="disponible"
+              name="disponible"
+              className="mr-2 leading-tight"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="cantidad" className="block text-gray-700 font-bold mb-2">
+              Cantidad:
+            </label>
+            <input
+              type="number"
+              id="cantidad"
+              name="cantidad"
+              value={cantidad}
+              onChange={(event) => setCantidad(Number(event.target.value))}
+              className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:border-blue-500"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
-            {libros.map((libro) => (
-              <option key={libro.idlibro} value={libro.idlibro}>
-                {libro.nombrelibro}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="disponible" className="block text-gray-700 font-bold mb-2">
-            Disponible:
-          </label>
-          <input
-            type="checkbox"
-            id="disponible"
-            name="disponible"
-            className="mr-2 leading-tight"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="cantidad" className="block text-gray-700 font-bold mb-2">
-            Cantidad:
-          </label>
-          <input
-            type="number"
-            id="cantidad"
-            name="cantidad"
-            value={cantidad}
-            onChange={(event) => setCantidad(Number(event.target.value))}
-            className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:border-blue-500"
-          />
-        </div>
-
-        <button
-          type="submit"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          Guardar
-        </button>
-      </form>
+            Guardar
+          </button>
+        </form>
+      )}
     </div>
   );
 };

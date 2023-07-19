@@ -7,6 +7,7 @@ const Login = () => {
   const [contrasena, setContrasena] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isEmpleado, setIsEmpleado] = useState(false); // Cambiado el nombre de la variable a isEmpleado
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,7 +20,7 @@ const Login = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+  
     try {
       // Enviar los datos al servidor para la autenticación
       const response = await fetch('http://192.168.0.191/principal.php?route=autenticacion', {
@@ -29,18 +30,23 @@ const Login = () => {
         },
         body: JSON.stringify({ nombreusuario, contrasena }),
       });
-
+  
       if (response.ok) {
         const data = await response.json();
         const token = data.token;
-
+  
         // Almacenar el token en el almacenamiento local (localStorage)
         localStorage.setItem('token', token);
         localStorage.setItem('nombreUsuario', nombreusuario);
         setIsLoggedIn(true);
+  
+        // Verificar si el usuario pertenece al rol de empleado
+        const isUserEmpleado = data.cargo;
+        // setIsEmpleado(isUserEmpleado);
+        localStorage.setItem('isEmpleado', JSON.stringify(isUserEmpleado));
       } else {
         const errorData = await response.json();
-        throw new Error(errorData.message);
+        throw new Error(errorData.error);
       }
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -49,19 +55,21 @@ const Login = () => {
         setErrorMessage('Ocurrió un error desconocido');
       }
     }
-  };
+  };  
 
   const handleLogout = () => {
     // Elimina el token del localStorage y establece isLoggedIn a false
     localStorage.removeItem('token');
     setIsLoggedIn(false);
+    setIsEmpleado(false);
+    localStorage.clear();
   };
 
   if (isLoggedIn) {
     return (
       <>
-        <App />
-        <button onClick={handleLogout}></button>
+        <App isEmpleado={isEmpleado} /> {/* Pasa la prop isEmpleado aquí */}
+        <button onClick={handleLogout}>Cerrar sesión</button>
       </>
     );
   }

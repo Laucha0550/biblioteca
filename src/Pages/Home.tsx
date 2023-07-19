@@ -1,12 +1,20 @@
 import React from 'react';
 
-const Home = () => (
-  <div className="">
-    <div className="container mx-2 mt-32">
-      <h1 className="text-2xl font-bold mt-4 text-blue-500">Página de menú</h1>
-      <p>Bienvenido a la página de inicio.</p>
-    </div>
-  </div>
-);
+interface HomeProps {
+  isEmpleado: boolean;
+}
 
-export default Home
+const Home: React.FC<HomeProps> = ({ isEmpleado }) => {
+  return (
+    <div>
+      <h2>Página de Inicio</h2>
+      {isEmpleado ? (
+        <p>Bienvenido cliente, aquí tienes acceso a contenido especial para clientes.</p>
+      ) : (
+        <p>Bienvenido empleado, aquí tienes acceso a contenido especial para empleados.</p>
+      )}
+    </div>
+  );
+};
+
+export default Home;
