@@ -20,7 +20,7 @@
     "webpack": "^5.88.1",
     "webpack-cli": "^5.1.4"
   },
-  "homepage": "http://localhost/login",
+  "homepage": "https://biblioteca-tau.vercel.app/login",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
