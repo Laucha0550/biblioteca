@@ -42,19 +42,16 @@ const PrestamoPage: React.FC<listaLibros> = ({ librosSeleccionados }) => {
   const location = useLocation();
 
   useEffect(() => {
-    // Realiza la solicitud para obtener las opciones de stock
     fetch('http://192.168.0.191/principal.php?route=stocks')
       .then(response => response.json())
       .then(data => setStockOptions(data))
       .catch(error => console.error('Error al obtener opciones de stock:', error));
 
-    // Realiza la solicitud para obtener las opciones de cliente
     fetch('http://192.168.0.191/principal.php?route=cliautnom')
       .then(response => response.json())
       .then(data => setClienteOptions(data))
       .catch(error => console.error('Error al obtener opciones de cliente:', error));
 
-    // Realiza la solicitud para obtener las opciones de empleado
     fetch('http://192.168.0.191/principal.php?route=empautnom')
       .then(response => response.json())
       .then(data => setEmpleadoOptions(data))
@@ -62,7 +59,6 @@ const PrestamoPage: React.FC<listaLibros> = ({ librosSeleccionados }) => {
   }, []);
 
   useEffect(() => {
-    // Filtrar opciones de cliente según el término de búsqueda
     const filteredResults = clienteOptions.filter(cliente =>
       cliente.nombrecliente.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -71,7 +67,7 @@ const PrestamoPage: React.FC<listaLibros> = ({ librosSeleccionados }) => {
 
   useEffect(() => {
     if (librosSeleccionados.length > 0) {
-      const libroSeleccionado = librosSeleccionados[0]; // Obtener el primer libro seleccionado
+      const libroSeleccionado = librosSeleccionados[0]; 
       const idStockDisponible = obtenerIdStockDisponible(libroSeleccionado.idlibro);
 
       if (idStockDisponible) {
@@ -101,7 +97,6 @@ const PrestamoPage: React.FC<listaLibros> = ({ librosSeleccionados }) => {
       idmulta: idMulta,
     };
 
-    // Realiza una solicitud POST a la API para guardar los datos del préstamo
     try {
       const response = await fetch('http://192.168.0.191/principal.php?route=prestamos', {
         method: 'POST',
@@ -112,11 +107,8 @@ const PrestamoPage: React.FC<listaLibros> = ({ librosSeleccionados }) => {
       });
 
       if (response.ok) {
-        const prestamoResponse = await response.json(); // Obtener la respuesta JSON del préstamo
+        const prestamoResponse = await response.json(); 
 
-        // Se guardó el préstamo exitosamente
-
-        // Cambiar el estado del stock seleccionado a 'false'
         const stockResponse = await fetch(
           `http://192.168.0.191/principal.php?route=stocks/${idStock}`,
           {

@@ -23,7 +23,7 @@ interface Stock {
   disponible: string;
 }
 interface PedidosProps {
-  isEmpleado: boolean; // Prop para verificar si el usuario es un cliente o no
+  isEmpleado: boolean;
 }
 
 const PedidoPage: React.FC<PedidosProps> = ({ isEmpleado }) => {
@@ -85,13 +85,13 @@ const PedidoPage: React.FC<PedidosProps> = ({ isEmpleado }) => {
   };
 
   const limpiarLibrosSeleccionados = () => {
-    setLibrosSeleccionados([]); // Limpia la lista de libros seleccionados
-    setMostrarFormularioPrestamo(false); // Cierra el formulario de carga de pedido
+    setLibrosSeleccionados([]);
+    setMostrarFormularioPrestamo(false); 
   };
   
   const handleSearchTermChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
-    setCurrentPage(1); // Resetear la página actual al realizar una búsqueda
+    setCurrentPage(1); 
   };
 
   const indexOfLastBook = currentPage * booksPerPage;
@@ -146,18 +146,14 @@ const PedidoPage: React.FC<PedidosProps> = ({ isEmpleado }) => {
   };
 
   const handleMostrarFormularioPrestamo = () => {
-    // Abre el formulario de carga de pedido
     setMostrarFormularioPrestamo(true);
   };
 
   const handleCerrarFormularioPrestamo = () => {
-    // Cierra el formulario de carga de pedido
-    // setMostrarFormularioPrestamo(false);
     limpiarLibrosSeleccionados();
   };
 
   const handleFormSubmit = () => {
-    // Abre el formulario de carga de pedido
     setMostrarFormularioPrestamo(true);
   };
 

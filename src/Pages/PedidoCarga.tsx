@@ -12,7 +12,7 @@ interface Persona {
 
 interface PedidoCargaProps {
   librosSeleccionados: Libro[];
-  onClose: () => void; // Función para cerrar el formulario
+  onClose: () => void;
 }
 
 const PedidoCarga: React.FC<PedidoCargaProps> = ({ librosSeleccionados, onClose }) => {
@@ -23,7 +23,6 @@ const PedidoCarga: React.FC<PedidoCargaProps> = ({ librosSeleccionados, onClose 
   const [personaOptions, setPersonaOptions] = useState<Persona[]>([]);
 
   useEffect(() => {
-    // Realiza la solicitud para obtener las opciones de persona
     fetch('http://192.168.0.191/principal.php?route=personas')
       .then(response => response.json())
       .then(data => setPersonaOptions(data))
@@ -33,7 +32,6 @@ const PedidoCarga: React.FC<PedidoCargaProps> = ({ librosSeleccionados, onClose 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // Realiza una solicitud POST a la API para guardar cada libro seleccionado como un pedido individual
     try {
       for (const libro of librosSeleccionados) {
         const pedidoData = {
@@ -52,22 +50,16 @@ const PedidoCarga: React.FC<PedidoCargaProps> = ({ librosSeleccionados, onClose 
         });
 
         if (response.ok) {
-          // Se guardó el pedido exitosamente
           console.log(`Pedido para el libro ${libro.nombrelibro} guardado correctamente`);
-          // Aquí puedes realizar alguna acción adicional o mostrar un mensaje de éxito si lo deseas
         } else {
           console.error(`Error al guardar el pedido para el libro ${libro.nombrelibro}`);
-          // Aquí puedes mostrar un mensaje de error si lo deseas
         }
         console.log(`Pedido de ${libro.nombrelibro} guardado correctamente`);
       }
 
-      // Cerrar el formulario después de guardar todos los pedidos exitosamente
       onClose();
-    //   limpiarLibrosSeleccionados();
     } catch (error) {
       console.error('Error de conexión:', error);
-      // Aquí puedes mostrar un mensaje de error si lo deseas
     }
   };
 
@@ -91,8 +83,6 @@ const PedidoCarga: React.FC<PedidoCargaProps> = ({ librosSeleccionados, onClose 
             ))}
           </select>
         </div>
-
-        {/* Aquí puedes agregar más campos del formulario para el pedido */}
         <div className="mb-4">
           <label className="block mb-2">Estado:</label>
           <input

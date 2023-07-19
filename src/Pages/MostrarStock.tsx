@@ -24,10 +24,9 @@ interface Stock {
   disponible: string;
 }
 interface MostrarStocksProps {
-  isEmpleado: boolean; // Prop para verificar si el usuario es un cliente o no
+  isEmpleado: boolean;
 }
 
-// const MostrarStock = () => {
   const MostrarStock: React.FC<MostrarStocksProps> = ({ isEmpleado }) => {
 
   const [libros, setLibros] = useState<Libro[]>([]);
@@ -209,8 +208,6 @@ interface MostrarStocksProps {
     </button>
   </div>
 )}
-
-
 
       {mostrarFormularioPrestamo && librosSeleccionados.length > 0 && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">

@@ -18,16 +18,11 @@ const CrearLibroGeneros = ({ idLibroo }: { idLibroo: string }) => {
       .then(response => response.json())
       .then(data => {
         setGeneros(data);
-        //limpiarCampos();
       })
       .catch(error => {
         console.log(error);
       });
   };
-
-  // const limpiarCampos = () => {
-  //   handleGeneroChange('');
-  // }
 
   const handleGeneroChange = (event: ChangeEvent<HTMLInputElement>) => {
     const generoId = event.target.value;

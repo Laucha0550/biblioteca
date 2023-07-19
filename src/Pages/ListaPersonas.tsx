@@ -11,11 +11,9 @@ const ListaPersonas: React.FC = () => {
   const [personaEditando, setPersonaEditando] = useState<Persona | null>(null);
 
   useEffect(() => {
-    // Hacer la solicitud GET al backend para obtener los datos de la tabla personas
     fetch('http://192.168.0.191/principal.php?route=personas')
       .then(response => response.json())
       .then(data => {
-        // Actualizar el estado con los datos obtenidos
         setPersonas(data);
       })
       .catch(error => {
@@ -24,13 +22,11 @@ const ListaPersonas: React.FC = () => {
   }, []);
 
   const handleEliminarPersona = (email: string) => {
-    // Llamar a la API para eliminar la persona con el email especificado
     fetch(`http://192.168.0.191/principal.php?route=personas/${email}`, {
       method: 'DELETE'
     })
       .then(response => response.json())
       .then(data => {
-        // Actualizar el estado eliminando la persona de la lista
         setPersonas(prevPersonas => prevPersonas.filter(persona => persona.email !== email));
       })
       .catch(error => {
@@ -39,7 +35,6 @@ const ListaPersonas: React.FC = () => {
   };
 
   const handleEditarPersona = (email: string) => {
-    // Obtener la persona correspondiente al email
     const personaSeleccionada = personas.find(persona => persona.email === email);
     if (personaSeleccionada) {
       setPersonaEditando(personaSeleccionada);
@@ -47,7 +42,6 @@ const ListaPersonas: React.FC = () => {
   };
 
   const handleGuardarEdicion = (personaEditada: Persona) => {
-    // Llamar a la API para guardar la persona editada
     fetch(`http://192.168.0.191/principal.php?route=personas/${personaEditada.email}`, {
       method: 'PUT',
       body: JSON.stringify(personaEditada),
@@ -57,7 +51,6 @@ const ListaPersonas: React.FC = () => {
     })
       .then(response => response.json())
       .then(data => {
-        // Actualizar el estado con la persona editada
         setPersonas(prevPersonas =>
           prevPersonas.map(persona => (persona.email === personaEditada.email ? personaEditada : persona))
         );

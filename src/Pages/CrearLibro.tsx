@@ -17,8 +17,6 @@ const CrearLibro = ({ onLibroCreado }: CrearLibroProps) => {
   const [imagen, setImagen] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [mensaje, setMensaje] = useState('');
-  //const [generosSeleccionados, setGenerosSeleccionados] = useState<string[]>([]);
-
 
 
   useEffect(() => {
@@ -46,7 +44,6 @@ const CrearLibro = ({ onLibroCreado }: CrearLibroProps) => {
       idautor: idAutor,
       imagen: imagen,
       descripcion: descripcion,
-      //generos: generosSeleccionados
     };
 
     fetch('http://192.168.0.191/principal.php?route=libros', {
@@ -60,7 +57,7 @@ const CrearLibro = ({ onLibroCreado }: CrearLibroProps) => {
       .then(data => {
         console.log(data);
         setMensaje('Se ha guardado correctamente');
-        onLibroCreado(data.id); // Call the onLibroCreado callback with the created book's ID
+        onLibroCreado(data.id);
         limpiarCampos();
       })
       .catch(error => {

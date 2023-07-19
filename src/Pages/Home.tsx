@@ -15,7 +15,6 @@ const Home: React.FC<HomeProps> = ({ isEmpleado }) => {
 
   useEffect(() => {
     if (!isEmpleado) {
-      // Realizar el fetch para obtener la lista de préstamos del usuario con el ID específico
       fetch('http://192.168.0.191/principal.php?route=prestamos')
         .then((response) => response.json())
         .then((data) => setPrestamos(data))
@@ -33,7 +32,6 @@ const Home: React.FC<HomeProps> = ({ isEmpleado }) => {
       ) : (
         <div>
           <p>Bienvenido cliente, aquí tienes acceso a contenido especial para clientes.</p>
-          {/* Lista de préstamos */}
           <h3>Tus préstamos:</h3>
           <ul>
             {prestamos.map((prestamo) => (

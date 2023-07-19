@@ -14,7 +14,7 @@ interface Stock {
 }
 
 interface FormularioLibrosProps {
-  isEmpleado: boolean; // Prop para verificar si el usuario es un cliente o no
+  isEmpleado: boolean; 
 }
 
 const FormularioLibros: React.FC<FormularioLibrosProps> = ({ isEmpleado }) => {
@@ -22,7 +22,6 @@ const FormularioLibros: React.FC<FormularioLibrosProps> = ({ isEmpleado }) => {
   const [cantidad, setCantidad] = useState<number>(1);
 
   useEffect(() => {
-    // Llamar a la API para obtener la lista de libros
     fetch('http://192.168.0.191/principal.php?route=libautnom')
       .then((response) => response.json())
       .then((data) => setLibros(data))
@@ -42,7 +41,6 @@ const FormularioLibros: React.FC<FormularioLibrosProps> = ({ isEmpleado }) => {
           disponible: disponibilidad
         };
 
-        // Llamar a la API para guardar en la tabla stock
         fetch('http://192.168.0.191/principal.php?route=stocks', {
           method: 'POST',
           body: JSON.stringify(data),
@@ -59,7 +57,7 @@ const FormularioLibros: React.FC<FormularioLibrosProps> = ({ isEmpleado }) => {
 
   return (
     <div className="max-w-md mx-auto mt-16 p-4 bg-gray-100 rounded shadow">
-      {!isEmpleado && ( // Mostrar el formulario solo si el usuario NO es un cliente
+      {!isEmpleado && ( 
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="libro" className="block text-gray-700 font-bold mb-2">

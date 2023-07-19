@@ -7,7 +7,7 @@ const Login = () => {
   const [contrasena, setContrasena] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isEmpleado, setIsEmpleado] = useState(false); // Cambiado el nombre de la variable a isEmpleado
+  const [isEmpleado, setIsEmpleado] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,7 +22,6 @@ const Login = () => {
     e.preventDefault();
   
     try {
-      // Enviar los datos al servidor para la autenticación
       const response = await fetch('http://192.168.0.191/principal.php?route=autenticacion', {
         method: 'POST',
         headers: {
@@ -35,14 +34,11 @@ const Login = () => {
         const data = await response.json();
         const token = data.token;
   
-        // Almacenar el token en el almacenamiento local (localStorage)
         localStorage.setItem('token', token);
         localStorage.setItem('nombreUsuario', nombreusuario);
         setIsLoggedIn(true);
   
-        // Verificar si el usuario pertenece al rol de empleado
         const isUserEmpleado = data.cargo;
-        // setIsEmpleado(isUserEmpleado);
         localStorage.setItem('isEmpleado', JSON.stringify(isUserEmpleado));
       } else {
         const errorData = await response.json();
@@ -58,7 +54,6 @@ const Login = () => {
   };  
 
   const handleLogout = () => {
-    // Elimina el token del localStorage y establece isLoggedIn a false
     localStorage.removeItem('token');
     setIsLoggedIn(false);
     setIsEmpleado(false);
@@ -68,7 +63,7 @@ const Login = () => {
   if (isLoggedIn) {
     return (
       <>
-        <App isEmpleado={isEmpleado} /> {/* Pasa la prop isEmpleado aquí */}
+        <App isEmpleado={isEmpleado} />
         <button onClick={handleLogout}></button>
       </>
     );

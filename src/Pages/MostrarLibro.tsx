@@ -24,7 +24,7 @@ interface SidebarProps {
 }
 
 interface MostrarLibrosProps {
-  isEmpleado: boolean; // Prop para verificar si el usuario es un cliente o no
+  isEmpleado: boolean;
 }
 
 const MostrarLibro: React.FC<MostrarLibrosProps> = ({ isEmpleado }) => {
@@ -90,7 +90,7 @@ const MostrarLibro: React.FC<MostrarLibrosProps> = ({ isEmpleado }) => {
 
   const handleSearchTermChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
-    setCurrentPage(1); // Resetear la página actual al realizar una búsqueda
+    setCurrentPage(1);
   };
 
   const handleGeneroSeleccionado = (event: ChangeEvent<HTMLInputElement>) => {
@@ -100,33 +100,27 @@ const MostrarLibro: React.FC<MostrarLibrosProps> = ({ isEmpleado }) => {
     } else {
       setGenerosSeleccionados(generosSeleccionados.filter(id => id !== generoId));
     }
-    console.log(generosSeleccionados); // Verificar los géneros seleccionados en la consola
+    console.log(generosSeleccionados);
   };
   
 
-  // Obtener el índice inicial y final de los libros a mostrar en la página actual
   const indexOfLastBook = currentPage * booksPerPage;
   const indexOfFirstBook = indexOfLastBook - booksPerPage;
 
-  // Filtrar los libros en función del término de búsqueda
   const filteredBooks = libros.filter(libro =>
     libro.nombrelibro.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Obtener los libros a mostrar en la página actual
   const currentBooks = filteredBooks.slice(indexOfFirstBook, indexOfLastBook);
 
-  // Calcular el número total de páginas
   const totalPages = Math.ceil(filteredBooks.length / booksPerPage);
 
-  // Cambiar a la página siguiente
   const nextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
     }
   };
 
-  // Cambiar a la página anterior
   const previousPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);

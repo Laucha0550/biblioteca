@@ -45,7 +45,6 @@ const CrearAutor = () => {
       .then(response => response.json())
       .then(data => {
         console.log(data);
-        // Aquí puedes realizar alguna acción adicional después de crear el autor
       })
       .catch(error => {
         console.log(error);

@@ -20,7 +20,6 @@ const CrearPersonas = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // Llamar a la API para guardar la persona
     fetch('http://192.168.0.191/principal.php?route=personas', {
       method: 'POST',
       body: JSON.stringify(persona),
