@@ -39,13 +39,13 @@ const CrearClienteUsuario: React.FC<CrearClienteUsuariosProps> = ({ isEmpleado }
 
   useEffect(() => {
     // Llamar a la API para obtener la lista de personas
-    fetch('http://192.168.0.191/principal.php?route=personas')
+    fetch('http://localhost/principal.php?route=personas')
       .then((response) => response.json())
       .then((data) => setPersonas(data))
       .catch((error) => console.error('Error al obtener las personas:', error));
 
     // Llamar a la API para obtener la lista de usuarios
-    fetch('http://192.168.0.191/principal.php?route=usuarios')
+    fetch('http://localhost/principal.php?route=usuarios')
       .then((response) => response.json())
       .then((data) => setUsuarios(data))
       .catch((error) => console.error('Error al obtener los usuarios:', error));
@@ -55,7 +55,7 @@ const CrearClienteUsuario: React.FC<CrearClienteUsuariosProps> = ({ isEmpleado }
     event.preventDefault();
 
     // Llamar a la API para guardar el cliente
-    const response = await fetch('http://192.168.0.191/principal.php?route=clientes', {
+    const response = await fetch('http://localhost/principal.php?route=clientes', {
       method: 'POST',
       body: JSON.stringify(cliente),
       headers: {
@@ -69,7 +69,7 @@ const CrearClienteUsuario: React.FC<CrearClienteUsuariosProps> = ({ isEmpleado }
       console.log('Cliente guardado:', data);
 
       // Obtener el nuevo usuario creado y agregarlo a la lista de usuarios
-      const nuevoUsuarioResponse = await fetch(`http://192.168.0.191/principal.php?route=usuarios/${data.idusuario}`);
+      const nuevoUsuarioResponse = await fetch(`http://localhost/principal.php?route=usuarios/${data.idusuario}`);
       const nuevoUsuarioData = await nuevoUsuarioResponse.json();
 
       setUsuarios((prevUsuarios) => [...prevUsuarios, nuevoUsuarioData]);
@@ -82,7 +82,7 @@ const CrearClienteUsuario: React.FC<CrearClienteUsuariosProps> = ({ isEmpleado }
     event.preventDefault();
 
     // Llamar a la API para guardar el usuario
-    const response = await fetch('http://192.168.0.191/principal.php?route=usuarios', {
+    const response = await fetch('http://localhost/principal.php?route=usuarios', {
       method: 'POST',
       body: JSON.stringify(nuevoUsuario),
       headers: {

@@ -44,11 +44,11 @@ const MostrarLibro: React.FC<MostrarLibrosProps> = ({ isEmpleado }) => {
   }, []);
 
   const obtenerLibros = () => {
-    let url = 'http://192.168.0.191/principal.php?route=libautnom';
+    let url = 'http://localhost/principal.php?route=libautnom';
   
     if (generosSeleccionados.length > 0) {
       const generosQuery = generosSeleccionados.join(',');
-      url = `http://192.168.0.191/principal.php?route=lixgen=${generosQuery}`;
+      url = `http://localhost/principal.php?route=lixgen=${generosQuery}`;
     }
   
     fetch(url)
@@ -63,7 +63,7 @@ const MostrarLibro: React.FC<MostrarLibrosProps> = ({ isEmpleado }) => {
   
 
   const obtenerGeneros = () => {
-    fetch('http://192.168.0.191/principal.php?route=generos')
+    fetch('http://localhost/principal.php?route=generos')
       .then(response => response.json())
       .then(data => {
         setGeneros(data);

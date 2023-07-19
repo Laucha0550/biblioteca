@@ -22,7 +22,7 @@ const Login = () => {
     e.preventDefault();
   
     try {
-      const response = await fetch('http://192.168.0.191/principal.php?route=autenticacion', {
+      const response = await fetch('http://localhost/principal.php?route=autenticacion', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

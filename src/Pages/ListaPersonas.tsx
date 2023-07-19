@@ -11,7 +11,7 @@ const ListaPersonas: React.FC = () => {
   const [personaEditando, setPersonaEditando] = useState<Persona | null>(null);
 
   useEffect(() => {
-    fetch('http://192.168.0.191/principal.php?route=personas')
+    fetch('http://localhost/principal.php?route=personas')
       .then(response => response.json())
       .then(data => {
         setPersonas(data);
@@ -22,7 +22,7 @@ const ListaPersonas: React.FC = () => {
   }, []);
 
   const handleEliminarPersona = (email: string) => {
-    fetch(`http://192.168.0.191/principal.php?route=personas/${email}`, {
+    fetch(`http://localhost/principal.php?route=personas/${email}`, {
       method: 'DELETE'
     })
       .then(response => response.json())
@@ -42,7 +42,7 @@ const ListaPersonas: React.FC = () => {
   };
 
   const handleGuardarEdicion = (personaEditada: Persona) => {
-    fetch(`http://192.168.0.191/principal.php?route=personas/${personaEditada.email}`, {
+    fetch(`http://localhost/principal.php?route=personas/${personaEditada.email}`, {
       method: 'PUT',
       body: JSON.stringify(personaEditada),
       headers: {

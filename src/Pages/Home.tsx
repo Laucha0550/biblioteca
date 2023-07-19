@@ -15,7 +15,7 @@ const Home: React.FC<HomeProps> = ({ isEmpleado }) => {
 
   useEffect(() => {
     if (!isEmpleado) {
-      fetch('http://192.168.0.191/principal.php?route=prestamos')
+      fetch('http://localhost/principal.php?route=prestamos')
         .then((response) => response.json())
         .then((data) => setPrestamos(data))
         .catch((error) => console.error('Error al obtener los préstamos:', error));

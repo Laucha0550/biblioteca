@@ -14,7 +14,7 @@ const CrearLibroGeneros = ({ idLibroo }: { idLibroo: string }) => {
   }, []);
 
   const obtenerGeneros = () => {
-    fetch('http://192.168.0.191/principal.php?route=generos')
+    fetch('http://localhost/principal.php?route=generos')
       .then(response => response.json())
       .then(data => {
         setGeneros(data);
@@ -43,7 +43,7 @@ const CrearLibroGeneros = ({ idLibroo }: { idLibroo: string }) => {
         };
   
         try {
-          const response = await fetch('http://192.168.0.191/principal.php?route=rutagl', {
+          const response = await fetch('http://localhost/principal.php?route=rutagl', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

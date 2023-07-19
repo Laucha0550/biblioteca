@@ -51,17 +51,17 @@ const PrestamoPage: React.FC<listaLibros> = ({ librosSeleccionados }) => {
   const [errorGuardado, setErrorGuardado] = useState('');
 
   useEffect(() => {
-    fetch('http://192.168.0.191/principal.php?route=stocks')
+    fetch('http://localhost/principal.php?route=stocks')
       .then(response => response.json())
       .then(data => setStockOptions(data))
       .catch(error => console.error('Error al obtener opciones de stock:', error));
 
-    fetch('http://192.168.0.191/principal.php?route=cliautnom')
+    fetch('http://localhost/principal.php?route=cliautnom')
       .then(response => response.json())
       .then(data => setClienteOptions(data))
       .catch(error => console.error('Error al obtener opciones de cliente:', error));
 
-    fetch('http://192.168.0.191/principal.php?route=empautnom')
+    fetch('http://localhost/principal.php?route=empautnom')
       .then(response => response.json())
       .then(data => setEmpleadoOptions(data))
       .catch(error => console.error('Error al obtener opciones de empleado:', error));
@@ -108,7 +108,7 @@ const PrestamoPage: React.FC<listaLibros> = ({ librosSeleccionados }) => {
     };
 
     try {
-      const response = await fetch('http://192.168.0.191/principal.php?route=prestamos', {
+      const response = await fetch('http://localhost/principal.php?route=prestamos', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

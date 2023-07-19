@@ -22,7 +22,7 @@ const FormularioLibros: React.FC<FormularioLibrosProps> = ({ isEmpleado }) => {
   const [cantidad, setCantidad] = useState<number>(1);
 
   useEffect(() => {
-    fetch('http://192.168.0.191/principal.php?route=libautnom')
+    fetch('http://localhost/principal.php?route=libautnom')
       .then((response) => response.json())
       .then((data) => setLibros(data))
       .catch((error) => console.error('Error al obtener los libros:', error));
@@ -41,7 +41,7 @@ const FormularioLibros: React.FC<FormularioLibrosProps> = ({ isEmpleado }) => {
           disponible: disponibilidad
         };
 
-        fetch('http://192.168.0.191/principal.php?route=stocks', {
+        fetch('http://localhost/principal.php?route=stocks', {
           method: 'POST',
           body: JSON.stringify(data),
           headers: {
@@ -57,7 +57,7 @@ const FormularioLibros: React.FC<FormularioLibrosProps> = ({ isEmpleado }) => {
 
   return (
     <div className="max-w-md mx-auto mt-16 p-4 bg-gray-100 rounded shadow">
-      {!isEmpleado && ( 
+      {isEmpleado && ( 
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="libro" className="block text-gray-700 font-bold mb-2">
@@ -104,7 +104,7 @@ const FormularioLibros: React.FC<FormularioLibrosProps> = ({ isEmpleado }) => {
 
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-violeta5 text-white opacity-90 py-2 px-4 rounded focus:outline-none"
           >
             Guardar
           </button>

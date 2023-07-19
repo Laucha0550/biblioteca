@@ -24,7 +24,7 @@ const CrearLibro = ({ onLibroCreado }: CrearLibroProps) => {
   }, []);
 
   const obtenerAutores = () => {
-    fetch('http://192.168.0.191/principal.php?route=libautnom')
+    fetch('http://localhost/principal.php?route=libautnom')
       .then(response => response.json())
       .then(data => {
         setAutores(data);
@@ -46,7 +46,7 @@ const CrearLibro = ({ onLibroCreado }: CrearLibroProps) => {
       descripcion: descripcion,
     };
 
-    fetch('http://192.168.0.191/principal.php?route=libros', {
+    fetch('http://localhost/principal.php?route=libros', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

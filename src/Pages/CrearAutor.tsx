@@ -17,7 +17,7 @@ const CrearAutor = () => {
   }, []);
 
   const obtenerPersonas = () => {
-    fetch('http://192.168.0.191/principal.php?route=personas')
+    fetch('http://localhost/principal.php?route=personas')
       .then(response => response.json())
       .then(data => {
         setPersonas(data);
@@ -35,7 +35,7 @@ const CrearAutor = () => {
       resena: resena
     };
 
-    fetch('http://192.168.0.191/principal.php?route=autores', {
+    fetch('http://localhost/principal.php?route=autores', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

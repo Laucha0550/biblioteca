@@ -20,7 +20,7 @@ const CrearPersonas = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    fetch('http://192.168.0.191/principal.php?route=personas', {
+    fetch('http://localhost/principal.php?route=personas', {
       method: 'POST',
       body: JSON.stringify(persona),
       headers: {

@@ -23,7 +23,7 @@ const PedidoCarga: React.FC<PedidoCargaProps> = ({ librosSeleccionados, onClose 
   const [personaOptions, setPersonaOptions] = useState<Persona[]>([]);
 
   useEffect(() => {
-    fetch('http://192.168.0.191/principal.php?route=personas')
+    fetch('http://localhost/principal.php?route=personas')
       .then(response => response.json())
       .then(data => setPersonaOptions(data))
       .catch(error => console.error('Error al obtener opciones de persona:', error));
@@ -41,7 +41,7 @@ const PedidoCarga: React.FC<PedidoCargaProps> = ({ librosSeleccionados, onClose 
           observacion: observacion,
         };
 
-        const response = await fetch('http://192.168.0.191/principal.php?route=pedidos', {
+        const response = await fetch('http://localhost/principal.php?route=pedidos', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
