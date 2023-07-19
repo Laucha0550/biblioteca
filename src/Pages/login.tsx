@@ -23,7 +23,7 @@ const Login = () => {
   
     try {
       // Enviar los datos al servidor para la autenticación
-      const response = await fetch('https://biblioteca23.000webhostapp.com/principal.php?route=autenticacion', {
+      const response = await fetch('http://192.168.0.191/principal.php?route=autenticacion', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
