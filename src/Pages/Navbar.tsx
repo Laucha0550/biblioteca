@@ -81,6 +81,22 @@ const Navbar: React.FC<NavbarProps> = ({ isEmpleado }) => {
                 )}
                 {isEmpleado && ( 
                   <Link
+                    to="/App/CCliente"
+                    className={`text-white relative ${hoveredLink === 'Cliente' ? 'text-violeta5' : ''}`}
+                    onMouseEnter={() => handleMouseEnter('Cliente')}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <div
+                      className={`p-5 transition-colors duration-300 ${
+                        hoveredLink === 'Cliente' ? 'bg-violeta7' : 'bg-transparent'
+                      }`}
+                    >
+                      Cliente
+                    </div>
+                  </Link>
+                )}
+                {isEmpleado && ( 
+                  <Link
                     to="/App/SPrestamo"
                     className={`text-white relative ${hoveredLink === 'Prestamo' ? 'text-violeta5' : ''}`}
                     onMouseEnter={() => handleMouseEnter('Prestamo')}

@@ -18,8 +18,11 @@ interface Cliente {
   direccion: string;
   idusuario: number;
 }
+interface CrearClienteUsuariosProps {
+  isEmpleado: boolean; 
+}
 
-const CrearClienteUsuario = () => {
+const CrearClienteUsuario: React.FC<CrearClienteUsuariosProps> = ({ isEmpleado }) => {
   const [personas, setPersonas] = useState<Persona[]>([]);
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
   const [cliente, setCliente] = useState<Cliente>({

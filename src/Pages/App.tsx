@@ -8,6 +8,7 @@ import MostrarStock from './MostrarStock.tsx';
 import FormularioLibros from './Stock.tsx';
 import PedidoPage from './Pedido.tsx';
 import LoadingScreen from './PantalladeCarga.tsx';
+import CrearClienteUsuario from './CrearCliente.tsx';
 
 interface AppProps {
   isEmpleado: boolean;
@@ -32,6 +33,7 @@ const App: React.FC<AppProps> = () => {
         <Route path="/Mlibro" element={<MostrarLibro isEmpleado={isEmpleado} />} />
         <Route path="/Stock" element={<FormularioLibros isEmpleado={isEmpleado} />} />
         <Route path="/Pedido" element={<PedidoPage isEmpleado={isEmpleado} />} />
+        <Route path="/CCliente" element={<CrearClienteUsuario isEmpleado={isEmpleado} />} />
       </Routes>
     </div>
   );
