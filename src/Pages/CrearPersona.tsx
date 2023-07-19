@@ -1,22 +1,20 @@
 import React, { useState } from 'react';
 
 interface Persona {
-  IDPersona: number;
-  Nombre: string;
-  Apellido: string;
-  Email: string;
-  DNI: string;
-  Telefono: string;
+  nombre: string;
+  apellido: string;
+  email: string;
+  dni: string;
+  telefono: string;
 }
 
 const CrearPersonas = () => {
   const [persona, setPersona] = useState<Persona>({
-    IDPersona: 0,
-    Nombre: '',
-    Apellido: '',
-    Email: '',
-    DNI: '',
-    Telefono: '',
+    nombre: '',
+    apellido: '',
+    email: '',
+    dni: '',
+    telefono: '',
   });
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -53,8 +51,8 @@ const CrearPersonas = () => {
           <input
             type="text"
             id="nombre"
-            name="Nombre"
-            value={persona.Nombre}
+            name="nombre"
+            value={persona.nombre}
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:border-blue-500"
           />
@@ -67,8 +65,8 @@ const CrearPersonas = () => {
           <input
             type="text"
             id="apellido"
-            name="Apellido"
-            value={persona.Apellido}
+            name="apellido"
+            value={persona.apellido}
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:border-blue-500"
           />
@@ -81,8 +79,8 @@ const CrearPersonas = () => {
           <input
             type="email"
             id="email"
-            name="Email"
-            value={persona.Email}
+            name="email"
+            value={persona.email}
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:border-blue-500"
           />
@@ -95,8 +93,8 @@ const CrearPersonas = () => {
           <input
             type="text"
             id="dni"
-            name="DNI"
-            value={persona.DNI}
+            name="dni"
+            value={persona.dni}
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:border-blue-500"
           />
@@ -109,8 +107,8 @@ const CrearPersonas = () => {
           <input
             type="text"
             id="telefono"
-            name="Telefono"
-            value={persona.Telefono}
+            name="telefono"
+            value={persona.telefono}
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:border-blue-500"
           />
