@@ -37,6 +37,8 @@ const PrestamoPage: React.FC<listaLibros> = ({ librosSeleccionados }) => {
   const [stockOptions, setStockOptions] = useState<Stock[]>([]);
   const [clienteOptions, setClienteOptions] = useState<any[]>([]);
   const [empleadoOptions, setEmpleadoOptions] = useState<any[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState<any[]>([]);
   const location = useLocation();
 
   useEffect(() => {
@@ -60,6 +62,14 @@ const PrestamoPage: React.FC<listaLibros> = ({ librosSeleccionados }) => {
   }, []);
 
   useEffect(() => {
+    // Filtrar opciones de cliente según el término de búsqueda
+    const filteredResults = clienteOptions.filter(cliente =>
+      cliente.nombrecliente.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setSearchResults(filteredResults);
+  }, [searchTerm, clienteOptions]);
+
+  useEffect(() => {
     if (librosSeleccionados.length > 0) {
       const libroSeleccionado = librosSeleccionados[0]; // Obtener el primer libro seleccionado
       const idStockDisponible = obtenerIdStockDisponible(libroSeleccionado.idlibro);
@@ -71,7 +81,9 @@ const PrestamoPage: React.FC<listaLibros> = ({ librosSeleccionados }) => {
   }, [librosSeleccionados, stockOptions]);
 
   const obtenerIdStockDisponible = (idLibro: string) => {
-    const stockDisponible = stockOptions.find(stock => stock.idlibro === idLibro && stock.disponible === 't');
+    const stockDisponible = stockOptions.find(
+      stock => stock.idlibro === idLibro && stock.disponible === 't'
+    );
 
     return stockDisponible ? stockDisponible.idstock : null;
   };
@@ -100,18 +112,27 @@ const PrestamoPage: React.FC<listaLibros> = ({ librosSeleccionados }) => {
       });
 
       if (response.ok) {
+        const prestamoResponse = await response.json(); // Obtener la respuesta JSON del préstamo
+
         // Se guardó el préstamo exitosamente
 
         // Cambiar el estado del stock seleccionado a 'false'
-        await fetch(`http://192.168.0.191/principal.php?route=stocks/${idStock}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ disponible: false }),
-        });
+        const stockResponse = await fetch(
+          `http://192.168.0.191/principal.php?route=stocks/${idStock}`,
+          {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ disponible: 'false' }),
+          }
+        );
 
-        console.log('Préstamo guardado correctamente');
+        if (stockResponse.ok) {
+          console.log('Préstamo guardado correctamente');
+        } else {
+          console.error('Error al cambiar el estado del stock');
+        }
       } else {
         console.error('Error al guardar el préstamo');
       }
@@ -141,42 +162,47 @@ const PrestamoPage: React.FC<listaLibros> = ({ librosSeleccionados }) => {
     setIdMulta(event.target.value);
   };
 
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-4">Realizar Préstamo</h1>
       <form onSubmit={handleSubmit} className="max-w-md">
         <div className="mb-4">
-          <label className="block mb-2">ID Stock:</label>
-          <select
-            name="idstock"
-            value={idStock}
-            onChange={(event) => setIdStock(event.target.value)}
-            className="w-full px-4 py-2 border rounded-md"
-          >
-            <option value="">Seleccionar Stock</option>
-            {stockOptions.map(stock => (
-              <option key={stock.idstock} value={stock.idstock}>
-                {stock.idstock}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="mb-4">
           <label className="block mb-2">ID Cliente:</label>
-          <select
+          <input
+            type="text"
             name="idcliente"
             value={idCliente}
             onChange={(event) => setIdCliente(event.target.value)}
             className="w-full px-4 py-2 border rounded-md"
-          >
-            <option value="">Seleccionar Cliente</option>
-            {clienteOptions.map(cliente => (
-              <option key={cliente.idcliente} value={cliente.idcliente}>
-                {cliente.nombrecliente}
-              </option>
-            ))}
-          </select>
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block mb-2">Buscar Cliente:</label>
+          <input
+            type="text"
+            name="search"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            className="w-full px-4 py-2 border rounded-md"
+          />
+          {searchResults.length > 0 && (
+            <ul>
+              {searchResults.map(cliente => (
+                <li
+                  key={cliente.idcliente}
+                  onClick={() => setIdCliente(cliente.idcliente)}
+                  className="cursor-pointer"
+                >
+                  {cliente.nombrecliente}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         <div className="mb-4">
